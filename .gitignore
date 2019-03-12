@@ -1,0 +1,4 @@
+env_vars.py
+*.pyc
+node_modules/
+db.sqlite3

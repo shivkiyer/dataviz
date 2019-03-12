@@ -1,0 +1,10 @@
+FROM debian:latest
+
+RUN apt-get update && \
+    apt-get install -y python3-pip
+
+RUN pip3 install django && \
+    pip3 install django-cors-headers && \
+    pip3 install django-rest-framework
+
+EXPOSE 8010
