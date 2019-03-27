@@ -1,0 +1,87 @@
+.top-header-bar {
+  width: 100%;
+  padding-bottom: 0;
+  background-color: rgb(216, 216, 216);
+  margin-bottom: 0;
+}
+
+.top-header-small {
+  width: 45px;
+}
+
+.top-header-left {
+  /*display: inline-block;*/
+  width: 100%;
+  padding-right: 0;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown-mobile {
+    position: relative;
+    display: inline-block;
+    padding: 10px;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-mobile-content {
+    display: none;
+    margin-left: 10px;
+    margin-top: 10px;
+    position: absolute;
+    background-color: inherit;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown-mobile:hover .dropdown-mobile-content {
+    display: block;
+}
+
+/* Links inside the dropdown */
+.dropdown-mobile-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-mobile-content a:hover {
+  background-color: rgb(155, 155, 155);;
+}
+
+.dropdown-mobile:hover {
+    background-color: white;
+}
+
+
+.header-navigation-bar {
+  list-style-type: none;
+  padding: 10px;
+  overflow: hidden;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.header-navigation-bar li {
+  display: inline;
+}
+
+.header-navigation-bar li a {
+  text-decoration: none;
+  color: inherit;
+  padding-right: 40px;
+  padding-left: 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.header-navigation-bar li a:hover {
+  background-color: white;
+}
+
+.glyphicon {
+  font-size: 120%;
+}

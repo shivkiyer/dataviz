@@ -1,0 +1,58 @@
+<div class="container">
+
+  <form [formGroup]="userRegistrationForm"
+        (ngSubmit)="registerUser()"
+        class="form-horizontal">
+
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-4 text-align-right">
+            <label for="regUserName"
+                    class="control-label">
+                    Username
+            </label>
+          </div>
+
+          <div class="col-md-4">
+            <input type="text"
+                    id="regUserName"
+                    class="form-control"
+                    formControlName="username">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-4 text-align-right">
+            <label for="regUserPassword"
+                    class="control-label">
+              Password:
+            </label>
+          </div>
+
+          <div class="col-md-4">
+            <input type="password"
+                    id="regUserPassword"
+                    class="form-control"
+                    formControlName="password">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+          <button type="submit"
+                  class="btn btn-primary">
+                  Register
+          </button>
+          <div *ngIf="statusMessage.length>0">
+            <br>
+            <p class="error-message">{{ statusMessage }}</p>
+          </div>
+        </div>
+      </div>
+
+  </form>
+
+</div>

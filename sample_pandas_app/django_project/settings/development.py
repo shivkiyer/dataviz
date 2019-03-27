@@ -5,7 +5,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-MIDDLEWARE.remove('django.middleware.csrf.CsrfViewMiddleware')
+# MIDDLEWARE.remove('django.middleware.csrf.CsrfViewMiddleware')
 
 # CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (

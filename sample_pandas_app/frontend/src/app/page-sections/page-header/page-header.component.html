@@ -1,0 +1,28 @@
+<div class="top-header-bar">
+  <div *ngIf="!smallWindow">
+    <div class="top-header-left">
+      <ul class="header-navigation-bar">
+        <li><a routerLink="/">HOME</a></li>
+        <li><a routerLink="/about">ABOUT</a></li>
+        <li *ngIf="!userLoggedIn"><a routerLink="/">LOGIN</a></li>
+        <li *ngIf="!userLoggedIn"><a routerLink="/">REGISTER</a></li>
+        <li *ngIf="userLoggedIn"><a routerLink="/" (click)="userLogout()">LOGOUT</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div *ngIf="smallWindow">
+      <div class="top-header-small">
+          <div class="dropdown-mobile">
+              <span class="glyphicon glyphicon-menu-hamburger"></span>
+              <div class="dropdown-mobile-content">
+                  <a routerLink="/">Home</a>
+                  <a routerLink="/about">ABOUT</a>
+                  <a *ngIf="!userLoggedIn" routerLink="/">LOGIN</a>
+                  <a *ngIf="!userLoggedIn" routerLink="/">REGISTER</a>
+                  <a *ngIf="userLoggedIn" routerLink="/" (click)="userLogout()">LOGOUT</a>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
