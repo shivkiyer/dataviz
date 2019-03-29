@@ -12,6 +12,7 @@ import { PageHeaderComponent } from './page-sections/page-header/page-header.com
 import { AboutPageComponent } from './about-page/about-page.component';
 import { LoginBoxComponent } from './login-box/login-box.component';
 import { RegisterBoxComponent } from './register-box/register-box.component';
+import { DataAnalyticsComponent } from './data-analytics/data-analytics.component';
 
 import { FileUploadService } from './services/file-upload.service';
 import { UserService } from './services/user.service';
@@ -25,7 +26,8 @@ import { UserAuthService } from './services/user-auth.service';
     PageHeaderComponent,
     AboutPageComponent,
     LoginBoxComponent,
-    RegisterBoxComponent
+    RegisterBoxComponent,
+    DataAnalyticsComponent
   ],
   imports: [
     BrowserModule,

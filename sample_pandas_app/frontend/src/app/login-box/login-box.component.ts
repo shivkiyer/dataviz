@@ -30,7 +30,7 @@ export class LoginBoxComponent {
         this.userAuthService.setJWTToken(response);
         this.statusMessage = 'Login successful! Just a moment ...';
         setTimeout(() => {
-          this.router.navigate(['/new-company/']);
+          this.router.navigate(['/data-analytics/']);
         }, 1500);
       },
       errors => {
