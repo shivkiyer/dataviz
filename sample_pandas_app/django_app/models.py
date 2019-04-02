@@ -6,6 +6,7 @@ class UserToken(models.Model):
     username = models.CharField(max_length=100)
     jwt_token = models.CharField(max_length=500, blank=True, null=True)
     creation_time = models.DateTimeField()
+    updation_time = models.DateTimeField()
 
     def __str__(self):
         return str(self.username)

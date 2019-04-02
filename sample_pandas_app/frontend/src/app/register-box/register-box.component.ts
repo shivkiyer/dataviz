@@ -19,15 +19,18 @@ export class RegisterBoxComponent {
   });
 
   statusMessage: string = '';
+  errorMessage: string = '';
 
   registerUser() {
     this.userService.registerUser(this.userRegistrationForm).subscribe(
       response => {
         this.userRegistrationForm.reset();
-        this.statusMessage = 'User successfully created. Use the login form with the username/password.'
+        this.statusMessage = 'User successfully created. Use the login form with the username/password.';
+        this.errorMessage = '';
       },
       errors => {
-        this.statusMessage = 'Could not register user.';
+        this.errorMessage = 'Could not register user.';
+        this.statusMessage = '';
       }
     );
   }

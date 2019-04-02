@@ -46,9 +46,13 @@
                   class="btn btn-primary">
                   Register
           </button>
+          <div *ngIf="errorMessage.length>0">
+            <br>
+            <p class="error-message">{{ errorMessage }}</p>
+          </div>
           <div *ngIf="statusMessage.length>0">
             <br>
-            <p class="error-message">{{ statusMessage }}</p>
+            <p class="success-message">{{ statusMessage }}</p>
           </div>
         </div>
       </div>

@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+
+.error-message {
+  font-size: 120%;
+  color: red;
+}
+
+.success-message {
+  font-size: 120%;
+  color: green;
+}
+
+.text-align-right {
+  text-align: right;
+}

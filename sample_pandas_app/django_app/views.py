@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
+from rest_framework import status
 
 import jwt
 from django.contrib.auth.models import User
@@ -16,6 +17,15 @@ from .serializers import UserTokenSerializer
 from django.conf import settings
 
 # Create your views here.
+
+def extract_user_info(request):
+    if not request.META.get('HTTP_AUTHORIZATION'):
+        return None
+    user_info = jwt.decode(
+        request.META.get('HTTP_AUTHORIZATION'),
+        settings.JWT_SECRET
+    )
+    return user_info
 
 class NewUser(APIView):
     def post(self, request, *args, **kwargs):
@@ -46,6 +56,7 @@ def user_login(request):
         user_token_object = UserToken()
         user_token_object.username = user_account.username
         user_token_object.creation_time = timezone.now()
+        user_token_object.updation_time = timezone.now()
         user_token_object.save()
         user_jwt_token = jwt.encode(
             {

@@ -8,6 +8,7 @@ import { UserAuthService } from './../services/user-auth.service';
 @Component({
   selector: 'app-user-login',
   templateUrl: './login-box.component.html',
+  styleUrls: ['./login-box.component.css']
 })
 export class LoginBoxComponent {
 
@@ -23,18 +24,21 @@ export class LoginBoxComponent {
   });
 
   statusMessage: string = '';
+  errorMessage: string = '';
 
   loginUser() {
     this.userService.loginUser(this.userLoginForm).subscribe(
       response => {
         this.userAuthService.setJWTToken(response);
         this.statusMessage = 'Login successful! Just a moment ...';
+        this.errorMessage = '';
         setTimeout(() => {
           this.router.navigate(['/data-analytics/']);
         }, 1500);
       },
       errors => {
-        this.statusMessage = errors.error.message;
+        this.errorMessage = errors.error.message;
+        this.statusMessage = '';
       }
     );
   }

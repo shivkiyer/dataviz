@@ -2,12 +2,41 @@
   <div *ngIf="!smallWindow">
     <div class="top-header-left">
       <ul class="header-navigation-bar">
-        <li><a routerLink="/">HOME</a></li>
-        <li><a routerLink="/about">ABOUT</a></li>
-        <li *ngIf="!userLoggedIn"><a routerLink="/">LOGIN</a></li>
-        <li *ngIf="!userLoggedIn"><a routerLink="/">REGISTER</a></li>
-        <li *ngIf="userLoggedIn"><a routerLink="/" (click)="userLogout()">LOGOUT</a></li>
+        <li>
+          <a routerLink="/">HOME</a>
+        </li>
+        <li>
+          <a routerLink="/about">ABOUT</a>
+        </li>
+        <li *ngIf="!userLoggedIn">
+          <a routerLink="/">LOGIN</a>
+        </li>
+        <li *ngIf="!userLoggedIn">
+          <a routerLink="/">REGISTER</a>
+        </li>
+        <li *ngIf="userLoggedIn">
+          <a (click)="userLogout()">LOGOUT</a>
+        </li>
       </ul>
+
+
+      <!-- <ul class="header-navigation-bar">
+        <li class="header-navigation-list">
+          <a routerLink="/" class="header-navigation-link">HOME</a>
+        </li>
+        <li class="header-navigation-list">
+          <a routerLink="/about" class="header-navigation-link">ABOUT</a>
+        </li>
+        <li class="header-navigation-list" *ngIf="!userLoggedIn">
+          <a routerLink="/" class="header-navigation-link">LOGIN</a>
+        </li>
+        <li class="header-navigation-list" *ngIf="!userLoggedIn">
+          <a routerLink="/" class="header-navigation-link">REGISTER</a>
+        </li>
+        <li [ngClass]="'header-navigation-list'" *ngIf="userLoggedIn">
+          <a (click)="userLogout()" [ngClass]="'header-navigation-link'">LOGOUT</a>
+        </li>
+      </ul> -->
     </div>
   </div>
 
@@ -20,7 +49,7 @@
                   <a routerLink="/about">ABOUT</a>
                   <a *ngIf="!userLoggedIn" routerLink="/">LOGIN</a>
                   <a *ngIf="!userLoggedIn" routerLink="/">REGISTER</a>
-                  <a *ngIf="userLoggedIn" routerLink="/" (click)="userLogout()">LOGOUT</a>
+                  <a *ngIf="userLoggedIn" (click)="userLogout()">LOGOUT</a>
               </div>
           </div>
       </div>
