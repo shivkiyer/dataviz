@@ -22,4 +22,5 @@ urlpatterns = [
     path('api/user/', views.NewUser.as_view(), name='new_user'),
     path('api/user/login/', views.user_login, name='login_user'),
     path('api/user/logout/', views.user_logout, name='logout_user'),
+    path('api/file-upload/', views.file_upload, name='file-upload'),
 ]

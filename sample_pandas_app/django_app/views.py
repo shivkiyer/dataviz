@@ -86,3 +86,18 @@ def user_logout(request):
     return Response({
         'message': 'Logged out'
     })
+
+
+@api_view(['POST'])
+def file_upload(request):
+    user_info = extract_user_info(request)
+    if user_info:
+        user_object = UserToken.objects.get(id=int(user_info['id']))
+    else:
+        return Response({
+            'message': "You must login to upload a file."
+        }, status=status.HTTP_401_UNAUTHORIZED)
+    print(user_object.username)
+    return Response({
+        'message': 'Received'
+    })
