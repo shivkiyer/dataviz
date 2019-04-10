@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { FileUploadService } from './../services/file-upload.service';
+import { UserAuthService } from './../services/user-auth.service';
 
 @Component({
   selector: 'app-file-upload-form',
@@ -9,10 +10,12 @@ import { FileUploadService } from './../services/file-upload.service';
 })
 export class FileUploadFormComponent {
   constructor(
-    private fileUploadService: FileUploadService
+    private fileUploadService: FileUploadService,
+    private userAuthService: UserAuthService
   ) {}
 
   fileToUpload: File = null;
+  errorMessage: string = '';
 
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
@@ -24,6 +27,10 @@ export class FileUploadFormComponent {
         console.log(data);
       }, error => {
         console.log(error);
+        this.errorMessage = error.error.message;
+        console.log(this.errorMessage);
+        this.userAuthService.clearToken();
+        this.userAuthService.accountStatus.next(false);
       });
   }
 

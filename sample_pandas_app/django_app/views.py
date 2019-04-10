@@ -27,6 +27,20 @@ def extract_user_info(request):
     )
     return user_info
 
+
+def update_user_activity(user_object):
+    if user_object:
+        user_token = UserToken.objects.get(id=int(user_object['id']))
+        time_difference = timezone.now() - user_token.updation_time
+        if (time_difference.total_seconds() > 10):
+            all_user_logins = UserToken.objects.filter(username=user_object['username'])
+            for redundant_usertokens in list(all_user_logins):
+                delete_user_token = UserToken.objects.get(id=int(redundant_usertokens.id))
+                delete_user_token.delete()
+            return 0
+    return 1
+
+
 class NewUser(APIView):
     def post(self, request, *args, **kwargs):
         new_user_data = JSONParser().parse(request)
@@ -91,13 +105,18 @@ def user_logout(request):
 @api_view(['POST'])
 def file_upload(request):
     user_info = extract_user_info(request)
-    if user_info:
-        user_object = UserToken.objects.get(id=int(user_info['id']))
+    useraccount_valid = update_user_activity(user_info)
+    if useraccount_valid:
+        if user_info:
+            user_object = UserToken.objects.get(id=int(user_info['id']))
+        else:
+            return Response({
+                'message': "You must login to upload a file."
+            }, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({
+            'message': 'Received'
+        })
     else:
         return Response({
-            'message': "You must login to upload a file."
+            'message': "Your session expired. Please login again."
         }, status=status.HTTP_401_UNAUTHORIZED)
-    print(user_object.username)
-    return Response({
-        'message': 'Received'
-    })
