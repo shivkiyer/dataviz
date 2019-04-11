@@ -1,3 +1,5 @@
+import os
+
 from django.shortcuts import render
 from django.utils import timezone
 
@@ -16,6 +18,8 @@ from .serializers import UserTokenSerializer
 
 from django.conf import settings
 
+data_files = {}
+
 # Create your views here.
 
 def extract_user_info(request):
@@ -28,16 +32,23 @@ def extract_user_info(request):
     return user_info
 
 
+def delete_user_tokens(user_name):
+    all_user_logins = UserToken.objects.filter(username=user_name)
+    for redundant_usertokens in all_user_logins:
+        user_token = UserToken.objects.get(id=int(redundant_usertokens.id))
+        user_token.delete()
+    return
+
+
 def update_user_activity(user_object):
     if user_object:
         user_token = UserToken.objects.get(id=int(user_object['id']))
         time_difference = timezone.now() - user_token.updation_time
-        if (time_difference.total_seconds() > 10):
-            all_user_logins = UserToken.objects.filter(username=user_object['username'])
-            for redundant_usertokens in list(all_user_logins):
-                delete_user_token = UserToken.objects.get(id=int(redundant_usertokens.id))
-                delete_user_token.delete()
+        if (time_difference.total_seconds() > 60):
+            delete_user_tokens(user_object['username'])
             return 0
+        user_token.updation_time = timezone.now()
+        user_token.save()
     return 1
 
 
@@ -67,6 +78,7 @@ def user_login(request):
         password=login_data["password"]
     )
     if user_account is not None:
+        delete_user_tokens(user_account.username)
         user_token_object = UserToken()
         user_token_object.username = user_account.username
         user_token_object.creation_time = timezone.now()
@@ -113,6 +125,14 @@ def file_upload(request):
             return Response({
                 'message': "You must login to upload a file."
             }, status=status.HTTP_401_UNAUTHORIZED)
+        file_received = request.FILES.get('fileKey')
+        file_name = file_received.name.split(".")[0]
+        file_key = user_info['username'] + file_name
+        file_write = open(os.path.join(settings.MEDIA_ROOT, file_received.name), "w")
+        file_contents = file_received.read()
+        file_contents = file_contents.decode('utf-8')
+        file_write.write(file_contents)
+        file_write.close()
         return Response({
             'message': 'Received'
         })

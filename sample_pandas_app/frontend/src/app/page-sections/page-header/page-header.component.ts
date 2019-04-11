@@ -28,7 +28,7 @@ export class PageHeaderComponent implements OnInit {
     } else {
       this.userLoggedIn = false;
     }
-    if this.userAuthService.accountStatus.subscribe(
+    this.userAuthService.accountStatus.subscribe(
       status => {
         this.userLoggedIn = false;
       }

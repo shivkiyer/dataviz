@@ -28,7 +28,6 @@ export class FileUploadFormComponent {
       }, error => {
         console.log(error);
         this.errorMessage = error.error.message;
-        console.log(this.errorMessage);
         this.userAuthService.clearToken();
         this.userAuthService.accountStatus.next(false);
       });
