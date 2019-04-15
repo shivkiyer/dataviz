@@ -13,7 +13,7 @@ import jwt
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 
-from .models import UserToken
+from .models import UserToken, DataFiles
 from .serializers import UserTokenSerializer
 
 from django.conf import settings
@@ -44,7 +44,7 @@ def update_user_activity(user_object):
     if user_object:
         user_token = UserToken.objects.get(id=int(user_object['id']))
         time_difference = timezone.now() - user_token.updation_time
-        if (time_difference.total_seconds() > 60):
+        if (time_difference.total_seconds() > 300):
             delete_user_tokens(user_object['username'])
             return 0
         user_token.updation_time = timezone.now()
@@ -126,15 +126,25 @@ def file_upload(request):
                 'message': "You must login to upload a file."
             }, status=status.HTTP_401_UNAUTHORIZED)
         file_received = request.FILES.get('fileKey')
-        file_name = file_received.name.split(".")[0]
-        file_key = user_info['username'] + file_name
+        if file_received.size>2097152:
+            return Response(
+                {
+                    'message': 'File too large. Limit is 2MB'
+                }, status=status.HTTP_400_BAD_REQUEST
+            )
+        # file_name = file_received.name.split(".")[0]
+        # file_key = user_info['username'] + file_name
         file_write = open(os.path.join(settings.MEDIA_ROOT, file_received.name), "w")
         file_contents = file_received.read()
         file_contents = file_contents.decode('utf-8')
         file_write.write(file_contents)
         file_write.close()
+        new_data_file = DataFiles()
+        new_data_file.username = user_info['username']
+        new_data_file.file_name = file_received.name
+        new_data_file.save()
         return Response({
-            'message': 'Received'
+            'file_name': file_received.name
         })
     else:
         return Response({

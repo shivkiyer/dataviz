@@ -3,5 +3,20 @@
 <div class="container">
   <h1>Data Analysis</h1>
   <br>
-  <app-file-upload-form></app-file-upload-form>
+
+  <div *ngIf="!fileUpload">
+    <button type="button"
+            class="btn btn-primary"
+            (click)="fileUpload=true">
+            Upload a file
+    </button>
+  </div>
+  <div *ngIf="fileUpload">
+    <app-file-upload-form (fileDetails)="newFileUploaded($event)"></app-file-upload-form>
+  </div>
+  <br>
+  <p *ngIf="fileUploadMessage.length>0"
+      class="success-message">
+      {{ fileUploadMessage }}
+  </p>
 </div>

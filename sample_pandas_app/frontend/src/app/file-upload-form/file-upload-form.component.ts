@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 import { FileUploadService } from './../services/file-upload.service';
 import { UserAuthService } from './../services/user-auth.service';
@@ -16,6 +16,7 @@ export class FileUploadFormComponent {
 
   fileToUpload: File = null;
   errorMessage: string = '';
+  @Output() fileDetails = new EventEmitter<any>();
 
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
@@ -24,9 +25,8 @@ export class FileUploadFormComponent {
 
   uploadFileToActivity() {
     this.fileUploadService.postFile(this.fileToUpload).subscribe(data => {
-        console.log(data);
+        this.fileDetails.emit(data.body['file_name']);
       }, error => {
-        console.log(error);
         this.errorMessage = error.error.message;
         this.userAuthService.clearToken();
         this.userAuthService.accountStatus.next(false);

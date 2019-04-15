@@ -13,3 +13,16 @@ class UserToken(models.Model):
 
     def __unicode__(self):
         return str(self.username)
+
+
+class DataFiles(models.Model):
+    username = models.CharField(max_length=100)
+    file_name = models.CharField(max_length=100)
+    file_description = models.TextField(blank=True, null=True)
+    make_public = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.file_name) + " created by " + str(self.username)
+
+    def __unicode__(self):
+        return str(self.file_name) + " created by " + str(self.username)
