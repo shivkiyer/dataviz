@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import sys
 # Check out the sample_setting_var.py for how to create your own file
 try:
     from .env_vars import *
