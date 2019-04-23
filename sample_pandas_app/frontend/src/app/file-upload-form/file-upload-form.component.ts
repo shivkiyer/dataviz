@@ -26,10 +26,13 @@ export class FileUploadFormComponent {
   uploadFileToActivity() {
     this.fileUploadService.postFile(this.fileToUpload).subscribe(data => {
         this.fileDetails.emit(data.body['file_name']);
+        console.log(data);
       }, error => {
         this.errorMessage = error.error.message;
-        this.userAuthService.clearToken();
-        this.userAuthService.accountStatus.next(false);
+        if (error.status == 401) {
+          this.userAuthService.clearToken();
+          this.userAuthService.accountStatus.next(false);
+        }
       });
   }
 

@@ -14,7 +14,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 
 from .models import UserToken, DataFiles
-from .serializers import UserTokenSerializer
+from .serializers import UserTokenSerializer, DataFilesSerializer
 
 from django.conf import settings
 
@@ -63,6 +63,8 @@ class NewUser(APIView):
             return Response({
                 'message': 'Registration failed.'
             }, status=status.HTTP_400_BAD_REQUEST)
+        if not os.path.isdir(os.path.join(settings.MEDIA_ROOT, new_user.username)):
+            os.makedirs(os.path.join(settings.MEDIA_ROOT, new_user.username))
         return Response({
             "user": {
                 "username": new_user.username
@@ -132,9 +134,15 @@ def file_upload(request):
                     'message': 'File too large. Limit is 2MB'
                 }, status=status.HTTP_400_BAD_REQUEST
             )
+        if (DataFiles.objects.filter(username=user_info['username']).filter(file_name=file_received.name)):
+            return Response(
+                {
+                'message': 'File exists. Delete the old file before uploading an updated one.'
+                }, status=status.HTTP_400_BAD_REQUEST
+            )
         # file_name = file_received.name.split(".")[0]
         # file_key = user_info['username'] + file_name
-        file_write = open(os.path.join(settings.MEDIA_ROOT, file_received.name), "w")
+        file_write = open(os.path.join(os.path.join(settings.MEDIA_ROOT, user_info['username']), file_received.name), "w")
         file_contents = file_received.read()
         file_contents = file_contents.decode('utf-8')
         file_write.write(file_contents)
@@ -144,7 +152,8 @@ def file_upload(request):
         new_data_file.file_name = file_received.name
         new_data_file.save()
         return Response({
-            'file_name': file_received.name
+            'file_name': file_received.name,
+            'file_list': DataFilesSerializer(DataFiles.objects.filter(username=user_info['username']), many=True).data
         })
     else:
         return Response({
