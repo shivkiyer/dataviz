@@ -19,4 +19,8 @@
       class="success-message">
       {{ fileUploadMessage }}
   </p>
+  <p *ngIf="errorMessage.length>0"
+      class="error-message">
+      {{ errorMessage }}
+  </p>
 </div>

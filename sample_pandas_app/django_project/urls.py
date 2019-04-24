@@ -23,4 +23,6 @@ urlpatterns = [
     path('api/user/login/', views.user_login, name='login_user'),
     path('api/user/logout/', views.user_logout, name='logout_user'),
     path('api/file-upload/', views.file_upload, name='file-upload'),
+    path('api/file-update/', views.file_update, name='file-update'),
+    path('api/cancel-upload/', views.cancel_file_upload, name='cancel-file-upload'),
 ]

@@ -44,13 +44,22 @@ def update_user_activity(user_object):
     if user_object:
         user_token = UserToken.objects.get(id=int(user_object['id']))
         time_difference = timezone.now() - user_token.updation_time
-        if (time_difference.total_seconds() > 300):
+        if (time_difference.total_seconds() > 60):
             delete_user_tokens(user_object['username'])
             return 0
         user_token.updation_time = timezone.now()
         user_token.save()
     return 1
 
+
+def extract_file_of_user(request, user_info):
+    file_info = JSONParser().parse(request)
+    data_file = DataFiles.objects.filter(
+                username=user_info['username']
+            ).filter(
+                file_name=file_info['file_name']
+            )
+    return [data_file, file_info]
 
 class NewUser(APIView):
     def post(self, request, *args, **kwargs):
@@ -159,3 +168,54 @@ def file_upload(request):
         return Response({
             'message': "Your session expired. Please login again."
         }, status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['POST'])
+def file_update(request):
+    user_info = extract_user_info(request)
+    useraccount_valid = update_user_activity(user_info)
+    if not useraccount_valid:
+        return Response({
+            'message': "Your session expired. Please login again."
+        }, status=status.HTTP_401_UNAUTHORIZED)
+
+    if user_info:
+        user_object = UserToken.objects.get(id=int(user_info['id']))
+    else:
+        return Response({
+            'message': "You must login."
+        }, status=status.HTTP_401_UNAUTHORIZED)
+
+    data_file, file_info = extract_file_of_user(request, user_info)
+    if not data_file:
+        return Response({
+            'message': 'Something went wrong.'
+        }, status=status.HTTP_400_BAD_REQUEST)
+    data_file[0].file_description = file_info['file_description']
+    data_file[0].make_public = file_info['make_public']
+    data_file[0].save()
+    return Response({
+        'message': 'Updated'
+    })
+
+
+@api_view(['POST'])
+def cancel_file_upload(request):
+    user_info = extract_user_info(request)
+    useraccount_valid = update_user_activity(user_info)
+    if not useraccount_valid:
+        return Response({
+            'message': "Your session expired. Please login again."
+        }, status=status.HTTP_401_UNAUTHORIZED)
+
+    data_file, file_info = extract_file_of_user(request, user_info)
+    if not data_file:
+        return Response({
+            'message': 'Something went wrong.'
+        }, status=status.HTTP_400_BAD_REQUEST)
+    os.remove(os.path.join(os.path.join(settings.MEDIA_ROOT, user_info['username']), data_file[0].file_name))
+    data_file[0].delete()
+
+    return Response({
+        'message': 'Upload canceled'
+    })

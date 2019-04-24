@@ -15,4 +15,63 @@
       {{ errorMessage }}
     </p>
   </div>
+  <br>
+  <div *ngIf="showForm">
+    <p>These are the details of <strong>{{ newFileUploaded }}</strong>. Change if you need to.</p>
+    <br>
+    <form class="form-horizontal"
+          [formGroup]="fileUploadForm"
+          (ngSubmit)="fileUpdate()">
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-4 text-align-right">
+              <label for="filedesc"
+                      class="control-label">
+                  File description
+              </label>
+            </div>
+            <div class="col-md-8">
+              <textarea rows="2" cols="40"
+                      class="form-control"
+                      id="filedesc"
+                      formControlName="file_description">
+              </textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4 text-align-right">
+              <label for="makepublic"
+                      class="control-label">
+                  Make Public?
+              </label>
+            </div>
+            <div class="col-md-2">
+              <input type="checkbox"
+                    class="form-control"
+                    formControlName="make_public">
+            </div>
+          </div>
+        </div>
+
+        <br>
+        <div class="row">
+          <div class="col-md-4">
+            <button type="submit"
+                    class="btn btn-primary">
+                    Submit
+            </button>
+          </div>
+          <div class="col-md-4">
+            <button type="button"
+                    class="btn btn-danger"
+                    (click)="uploadCancel()">
+                    Cancel
+            </button>
+          </div>
+        </div>
+
+    </form>
+  </div>
 </div>

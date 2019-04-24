@@ -32,5 +32,23 @@ export class FileUploadService {
         );
   }
 
+  updateFile(fileToUpdate: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.userAuthService.getJWTToken()
+    });
+    return this.httpClient.post(this.apiURL + 'file-update/', fileToUpdate, {headers});
+  }
+
+  cancelUpload(fileName: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.userAuthService.getJWTToken()
+    });
+    return this.httpClient.post(this.apiURL + 'cancel-upload/',
+            {file_name: fileName},
+            {headers}
+          );
+  }
 
 }
