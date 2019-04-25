@@ -4,6 +4,66 @@
   <h1>Data Analysis</h1>
   <br>
 
+  <div *ngIf="userLoggedIn">
+    <div class="row">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <div class="col-md-2 text-align-right">
+            <label class="control-label"
+                    for="user-file">
+                    Your files:
+            </label>
+          </div>
+          <div class="col-md-4">
+            <select class="form-control"
+                    name="userfile"
+                    id="user-file"
+                    [(ngModel)]="userFileSelection">
+              <option [value]="fileItem" *ngFor="let fileItem of userFileList">
+                {{ fileItem }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+  </div>
+
+  <p *ngIf="!userLoggedIn">
+    You are not logged in. You can access publicly available files.
+  </p>
+
+  <p *ngIf="publicFileList.length<1">
+    There are no public files at this point of time.
+  </p>
+
+  <div *ngIf="publicFileList.length>1">
+    <div class="row">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <div class="col-md-2 text-align-right">
+            <label class="control-label"
+                    for="public-file">
+                    Public files:
+            </label>
+          </div>
+          <div class="col-md-4">
+            <select class="form-control"
+                    name="publicfile"
+                    id="public-file"
+                    [(ngModel)]="publicFileSelection">
+              <option [value]="fileItem" *ngFor="let fileItem of publicFileList">
+                {{ fileItem }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+
   <div *ngIf="!fileUpload">
     <button type="button"
             class="btn btn-primary"

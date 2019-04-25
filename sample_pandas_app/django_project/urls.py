@@ -25,4 +25,5 @@ urlpatterns = [
     path('api/file-upload/', views.file_upload, name='file-upload'),
     path('api/file-update/', views.file_update, name='file-update'),
     path('api/cancel-upload/', views.cancel_file_upload, name='cancel-file-upload'),
+    path('api/fetch-files/', views.fetch_file_list, name='fetch-files'),
 ]
