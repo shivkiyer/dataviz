@@ -57,10 +57,26 @@ export class DataAnalyticsComponent implements OnInit {
 
   loadUserFile(fileName: string) {
     console.log(fileName);
+    this.fileManagementService.loadUserFile(fileName).subscribe(
+      data => {
+        console.log(data);
+      },
+      errors => {
+        console.log(errors);
+      }
+    );
   }
 
   loadPublicFile(fileName: string) {
     console.log(fileName);
+    this.fileManagementService.loadPublicFile(fileName).subscribe(
+      data => {
+        console.log(data);
+      },
+      errors => {
+        console.log(errors);
+      }
+    );
   }
 
 }

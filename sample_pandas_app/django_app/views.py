@@ -1,5 +1,7 @@
 import os
 
+import pandas as pd
+
 from django.shortcuts import render
 from django.utils import timezone
 
@@ -218,4 +220,20 @@ def fetch_file_list(request):
     return Response({
         'user_file_list': DataFilesSerializer(user_file_list, many=True).data,
         'public_file_list': DataFilesSerializer(public_file_list, many=True).data
+    })
+
+
+@api_view(['POST'])
+def load_file(request):
+    user_info = extract_user_info(request)
+    file_received = JSONParser().parse(request)
+    if file_received['file_name'] not in data_files:
+        data_files[file_received['file_name']] = pd.read_csv(os.path.join(
+            settings.MEDIA_ROOT,
+            os.path.join(file_received['user_name'], file_received['file_name'])
+        ))
+    for file_key, file_obj in data_files.items():
+        print(file_obj.head())
+    return Response({
+        'message': 'Loaded',
     })

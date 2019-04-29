@@ -29,17 +29,44 @@ export class FileManagementService {
     return this.http.get(this.apiURL + 'fetch-files/', {headers}).pipe(
       map(
         data => {
+          this.userFileList = ['Select'];
+          this.publicFileList = ['Select'];
           this.userFileObjectList = data['user_file_list'];
           this.publicFileObjectList = data['public_file_list'];
-          data['user_file_list'].forEach(item => {
-            this.userFileList.push(item['file_name']);
+          console.log(this.publicFileObjectList);
+          data['user_file_list'].forEach((item, index) => {
+            this.userFileList.push(`${item['file_name']} *by* ${this.userFileObjectList[index]['username']}`);
           });
-          data['public_file_list'].forEach(item => {
-            this.publicFileList.push(item['file_name']);
+          data['public_file_list'].forEach((item, index) => {
+            this.publicFileList.push(`${item['file_name']} *by* ${this.publicFileObjectList[index]['username']}`);
           });
         }
       )
     );
+  }
+
+
+  loadPublicFile(fileName: string): Observable<any> {
+    let [file_name, user_name] = fileName.split('*by*');
+    file_name = file_name.trim();
+    user_name = user_name.trim();
+    const headers = new HttpHeaders({
+      // 'Content': 'text/plain',
+      'Authorization': this.userAuthService.getJWTToken()
+    });
+    const postObject = {
+      file_name: file_name,
+      user_name: user_name
+    };
+    return this.http.post(this.apiURL + 'load-file/',
+                  JSON.stringify(postObject),
+                  {headers}
+              );
+  }
+
+
+  loadUserFile(fileName: string): Observable<any> {
+    return this.loadPublicFile(fileName);
   }
 
 }
