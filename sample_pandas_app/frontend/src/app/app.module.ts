@@ -13,10 +13,12 @@ import { AboutPageComponent } from './about-page/about-page.component';
 import { LoginBoxComponent } from './login-box/login-box.component';
 import { RegisterBoxComponent } from './register-box/register-box.component';
 import { DataAnalyticsComponent } from './data-analytics/data-analytics.component';
+import { FileBrowserComponent } from './data-analytics/file-browser/file-browser.component';
 
 import { FileUploadService } from './services/file-upload.service';
 import { UserService } from './services/user.service';
 import { UserAuthService } from './services/user-auth.service';
+import { FileManagementService } from './services/file-management.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { UserAuthService } from './services/user-auth.service';
     AboutPageComponent,
     LoginBoxComponent,
     RegisterBoxComponent,
-    DataAnalyticsComponent
+    DataAnalyticsComponent,
+    FileBrowserComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +42,8 @@ import { UserAuthService } from './services/user-auth.service';
   providers: [
     FileUploadService,
     UserService,
-    UserAuthService
+    UserAuthService,
+    FileManagementService
   ],
   bootstrap: [AppComponent]
 })
