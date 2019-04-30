@@ -35,7 +35,7 @@ export class FileManagementService {
           this.publicFileObjectList = data['public_file_list'];
           console.log(this.publicFileObjectList);
           data['user_file_list'].forEach((item, index) => {
-            this.userFileList.push(`${item['file_name']} *by* ${this.userFileObjectList[index]['username']}`);
+            this.userFileList.push(item['file_name']);
           });
           data['public_file_list'].forEach((item, index) => {
             this.publicFileList.push(`${item['file_name']} *by* ${this.publicFileObjectList[index]['username']}`);
@@ -49,7 +49,9 @@ export class FileManagementService {
   loadPublicFile(fileName: string): Observable<any> {
     let [file_name, user_name] = fileName.split('*by*');
     file_name = file_name.trim();
-    user_name = user_name.trim();
+    if (user_name) {
+      user_name = user_name.trim();
+    }
     const headers = new HttpHeaders({
       // 'Content': 'text/plain',
       'Authorization': this.userAuthService.getJWTToken()
@@ -67,6 +69,26 @@ export class FileManagementService {
 
   loadUserFile(fileName: string): Observable<any> {
     return this.loadPublicFile(fileName);
+  }
+
+
+  deleteUserFile(fileName: string): Observable<any> {
+    const headers = new HttpHeaders({
+      // 'Content': 'text/plain',
+      'Authorization': this.userAuthService.getJWTToken()
+    });
+    return this.http.post(this.apiURL + 'delete-file/',
+                  JSON.stringify({file_name: fileName}),
+                  {headers}
+              ).pipe(
+                map(
+                  data => {
+                    const deleteIndex = this.userFileList.indexOf(fileName);
+                    this.userFileList.splice(deleteIndex, 1);
+                    this.userFileObjectList.splice(deleteIndex, 1);
+                  }
+                )
+              );
   }
 
 }

@@ -12,6 +12,8 @@ export class FileBrowserComponent {
   publicFileSelection: string = 'Select';
   @Output() userFile = new EventEmitter<string>();
   @Output() publicFile = new EventEmitter<string>();
+  @Output() deleteFile = new EventEmitter<string>();
+  confirmDeleteMessage: boolean = false;
 
   loadUserFile() {
     if (this.userFileSelection != 'Select') {
@@ -22,6 +24,19 @@ export class FileBrowserComponent {
   loadPublicFile() {
     if (this.publicFileSelection != 'Select') {
       this.publicFile.emit(this.publicFileSelection);
+    }
+  }
+
+  deleteUserFile() {
+    if (this.userFileSelection != 'Select') {
+      this.confirmDeleteMessage = true;
+    }
+  }
+
+  confirmedDelete() {
+    if (this.userFileSelection != 'Select') {
+      this.deleteFile.emit(this.userFileSelection);
+      this.confirmDeleteMessage = false;
     }
   }
 

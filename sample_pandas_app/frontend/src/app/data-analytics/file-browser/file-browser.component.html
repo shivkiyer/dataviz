@@ -29,11 +29,34 @@
                     Load
             </button>
           </div>
+          <div class="col-md-2">
+            <button type="button"
+                    class="btn btn-danger"
+                    (click)="deleteUserFile()">
+                    Delete
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <br>
+</div>
+
+<div *ngIf="confirmDeleteMessage">
+  Are you sure you would like to delete this file? &nbsp; &nbsp;
+  <button type="button"
+          class="btn btn-danger"
+          (click)="confirmedDelete()">
+          Yes
+  </button>
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+  <button type="button"
+          class="btn btn-general"
+          (click)="confirmDeleteMessage=false">
+          No
+  </button>
+  <br> <br>
 </div>
 
 <p *ngIf="!userLoggedIn">

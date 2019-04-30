@@ -8,7 +8,8 @@
                     [publicFileList]="publicFileList"
                     [userLoggedIn]="userLoggedIn"
                     (userFile)="loadUserFile($event)"
-                    (publicFile)="loadPublicFile($event)">
+                    (publicFile)="loadPublicFile($event)"
+                    (deleteFile)="userDeleteFile($event)">
   </app-file-browser>
 
   <br>

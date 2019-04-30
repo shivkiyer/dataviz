@@ -227,13 +227,44 @@ def fetch_file_list(request):
 def load_file(request):
     user_info = extract_user_info(request)
     file_received = JSONParser().parse(request)
+    if user_info:
+        user_name = user_info['username']
+    else:
+        user_name = file_received['user_name']
+    extract_file = DataFiles.objects.filter(username=user_name).filter(file_name=file_received['file_name'])
+    if extract_file:
+        if (not user_info) and (extract_file[0].make_public==False):
+            return Response({
+                'message': 'Not authorized to load this file.'
+            }, status=status.HTTP_401_UNAUTHORIZED)
+    else:
+        return Response({
+            'message': 'File could not be found'
+        }, status=status.HTTP_400_BAD_REQUEST)
     if file_received['file_name'] not in data_files:
         data_files[file_received['file_name']] = pd.read_csv(os.path.join(
             settings.MEDIA_ROOT,
-            os.path.join(file_received['user_name'], file_received['file_name'])
+            os.path.join(user_name, file_received['file_name'])
         ))
-    for file_key, file_obj in data_files.items():
-        print(file_obj.head())
     return Response({
         'message': 'Loaded',
+    })
+
+
+@api_view(['POST'])
+def delete_file(request):
+    user_info = extract_user_info(request)
+    file_received = JSONParser().parse(request)
+    if not user_info:
+        return Response({
+            'message': 'You are not logged in/session expired.'
+        }, status=status.HTTP_401_UNAUTHORIZED)
+    file_object = DataFiles.objects.filter(username=user_info['username']).filter(file_name=file_received['file_name'])
+    if not file_object:
+        return Response({
+            'message': 'You do not have permission to delete the file.'
+        }, status=status.HTTP_401_UNAUTHORIZED)
+    file_object[0].delete()
+    return Response({
+        'message': 'Deleted'
     })
