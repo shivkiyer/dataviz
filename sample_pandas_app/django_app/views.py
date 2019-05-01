@@ -246,8 +246,10 @@ def load_file(request):
             settings.MEDIA_ROOT,
             os.path.join(user_name, file_received['file_name'])
         ))
+    data_frame = data_files[file_received['file_name']].to_json(orient='split')
     return Response({
         'message': 'Loaded',
+        'dataframe': data_frame
     })
 
 

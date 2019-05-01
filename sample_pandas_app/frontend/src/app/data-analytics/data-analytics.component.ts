@@ -58,7 +58,9 @@ export class DataAnalyticsComponent implements OnInit {
   loadUserFile(fileName: string) {
     this.fileManagementService.loadUserFile(fileName).subscribe(
       data => {
-        console.log(data);
+        let dataFrame = JSON.parse(data['dataframe']);
+        console.log(dataFrame['columns']);
+        console.log(dataFrame['data'][0]);
       },
       errors => {
         console.log(errors);
@@ -78,7 +80,6 @@ export class DataAnalyticsComponent implements OnInit {
   }
 
   userDeleteFile(fileName: string) {
-    console.log(fileName);
     this.fileManagementService.deleteUserFile(fileName).subscribe(
       data => {
         console.log(data);
