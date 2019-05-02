@@ -17,6 +17,8 @@ export class DataAnalyticsComponent implements OnInit {
   userLoggedIn: boolean = false;
   userFileSelection: string = 'Select';
   publicFileSelection: string = 'Select';
+  displayFrame: boolean = false;
+  dataFrame: any = {};
 
   constructor(
     private userAuthService: UserAuthService,
@@ -58,35 +60,28 @@ export class DataAnalyticsComponent implements OnInit {
   loadUserFile(fileName: string) {
     this.fileManagementService.loadUserFile(fileName).subscribe(
       data => {
-        let dataFrame = JSON.parse(data['dataframe']);
-        console.log(dataFrame['columns']);
-        console.log(dataFrame['data'][0]);
+        this.dataFrame = JSON.parse(data['dataframe']);
+        this.displayFrame = true;
+        this.errorMessage = '';
       },
       errors => {
-        console.log(errors);
+        this.errorMessage = errors.error.message;
       }
     );
   }
 
   loadPublicFile(fileName: string) {
-    this.fileManagementService.loadPublicFile(fileName).subscribe(
-      data => {
-        console.log(data);
-      },
-      errors => {
-        console.log(errors);
-      }
-    );
+    this.loadUserFile(fileName);
   }
 
   userDeleteFile(fileName: string) {
     this.fileManagementService.deleteUserFile(fileName).subscribe(
       data => {
-        console.log(data);
         this.userFileList = [...this.fileManagementService.userFileList];
+        this.errorMessage = '';
       },
       errors => {
-        console.log(errors);
+        this.errorMessage = errors.error.message;
       }
     );
   }

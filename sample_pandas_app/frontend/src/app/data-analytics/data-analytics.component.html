@@ -33,4 +33,9 @@
       class="error-message">
       {{ errorMessage }}
   </p>
+  <br>
+  <app-dataframe-display
+        *ngIf="displayFrame"
+        [dataFrame]="dataFrame">
+  </app-dataframe-display>
 </div>

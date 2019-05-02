@@ -14,6 +14,7 @@ import { LoginBoxComponent } from './login-box/login-box.component';
 import { RegisterBoxComponent } from './register-box/register-box.component';
 import { DataAnalyticsComponent } from './data-analytics/data-analytics.component';
 import { FileBrowserComponent } from './data-analytics/file-browser/file-browser.component';
+import { DataFrameDisplayComponent } from './data-analytics/dataframe-display/dataframe-display.component';
 
 import { FileUploadService } from './services/file-upload.service';
 import { UserService } from './services/user.service';
@@ -30,7 +31,8 @@ import { FileManagementService } from './services/file-management.service';
     LoginBoxComponent,
     RegisterBoxComponent,
     DataAnalyticsComponent,
-    FileBrowserComponent
+    FileBrowserComponent,
+    DataFrameDisplayComponent
   ],
   imports: [
     BrowserModule,
