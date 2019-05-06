@@ -5,6 +5,9 @@ db.sqlite3
 migrations/
 media/
 
+buildSettings.ts
+dist/
+
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
