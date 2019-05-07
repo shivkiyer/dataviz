@@ -1,0 +1,41 @@
+To use this project:
+
+Backend:
+Uses Python 3.5.3.
+All other dependencies are in requirements.txt. To install:
+pip install -r requirements.txt
+
+Check out the file sample_env_vars.py. This contains an example of the variables needed to run the Django server:
+Secret Key
+JWT_SECRET
+Frontend host and port (see below)
+IP addresses that can access this server (include frontend IP if it is a separate server)
+Hostnames that can access this server (include frontend url also)
+Database details: name, user, pwd, host and port.
+
+
+Frontend:
+Uses Node V10
+Uses Angular 6
+All other dependencies are in package.json. To install:
+npm install
+
+In the directory frontend/src/environments, check out the file sample_buildSettings.js. This contains:
+Backend Django server (above) host and port. This is important as the API calls need to be made to backend.
+You have the option of running a separate dev and prod backend server.
+
+In the directory frontend/server, check out the file sample_serverConfig.js. This contains:
+The port of the frontend server.
+
+If you want to run the frontend server in dev mode, use the Angular dev server in frontend/ with:
+ng serve --port <port>
+
+Make sure this IP/URL and port are added to the Django backend.
+
+If you want to run the frontend in prod mode, compile the Angular project with:
+ng build --prod
+
+And use the Node server in frontend/server with:
+node server.js
+
+Make sure this IP/URL and port are added to the Django backend.

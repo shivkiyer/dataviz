@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 import sys
-# Check out the sample_setting_var.py for how to create your own file
+# Check out the sample_env_vars.py for how to create your own file
 try:
     from .env_vars import *
 except:
@@ -27,12 +27,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = PROJECT_SECRET_KEY
-
-# # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-#
-# ALLOWED_HOSTS = []
-
 
 # Application definition
 

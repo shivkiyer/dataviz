@@ -1,15 +1,16 @@
 from .base import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Allowed hosts not needed in dev mode.
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = IP_ADDRESS_LIST
+ALLOWED_HOSTS.extend(HOSTNAME_LIST)
 
-# CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
     '{}:{}'.format(FRONTEND_HOST, FRONTEND_PORT),
 )
+
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_EXPOSE_HEADERS = (

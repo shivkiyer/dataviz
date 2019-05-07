@@ -33,7 +33,6 @@ export class FileManagementService {
           this.publicFileList = ['Select'];
           this.userFileObjectList = data['user_file_list'];
           this.publicFileObjectList = data['public_file_list'];
-          console.log(this.publicFileObjectList);
           data['user_file_list'].forEach((item, index) => {
             this.userFileList.push(item['file_name']);
           });
