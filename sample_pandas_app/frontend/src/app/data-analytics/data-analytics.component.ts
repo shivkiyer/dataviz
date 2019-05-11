@@ -6,7 +6,8 @@ import { FileManagementService } from './../services/file-management.service';
 
 @Component({
   selector: 'app-data-analytics',
-  templateUrl: './data-analytics.component.html'
+  templateUrl: './data-analytics.component.html',
+  styleUrls: ['./data-analytics.component.css']
 })
 export class DataAnalyticsComponent implements OnInit {
   errorMessage: string = '';

@@ -1,0 +1,9 @@
+@media only screen and (max-width: 767px) {
+    .text-align-right {
+      text-align: left;
+    }
+
+    .space-above {
+      margin-top: 6px;
+    }
+}

@@ -1,41 +1,42 @@
 <app-page-header></app-page-header>
 
 <div class="container">
-  <h1>Data Analysis</h1>
-  <br>
 
-  <app-file-browser [userFileList]="userFileList"
-                    [publicFileList]="publicFileList"
-                    [userLoggedIn]="userLoggedIn"
-                    (userFile)="loadUserFile($event)"
-                    (publicFile)="loadPublicFile($event)"
-                    (deleteFile)="userDeleteFile($event)">
-  </app-file-browser>
+  <div class="data-home-container">
+      <app-file-browser [userFileList]="userFileList"
+                        [publicFileList]="publicFileList"
+                        [userLoggedIn]="userLoggedIn"
+                        (userFile)="loadUserFile($event)"
+                        (publicFile)="loadPublicFile($event)"
+                        (deleteFile)="userDeleteFile($event)">
+      </app-file-browser>
 
-  <br>
+      <br>
 
-  <div *ngIf="!fileUpload">
-    <button type="button"
-            class="btn btn-primary"
-            (click)="fileUpload=true">
-            Upload a file
-    </button>
+      <div *ngIf="!fileUpload">
+        <button type="button"
+                class="btn btn-primary"
+                (click)="fileUpload=true">
+                Upload a file
+        </button>
+      </div>
+      <div *ngIf="fileUpload">
+        <app-file-upload-form (fileDetails)="newFileUploaded($event)"></app-file-upload-form>
+      </div>
+      <br>
+      <p *ngIf="fileUploadMessage.length>0"
+          class="success-message">
+          {{ fileUploadMessage }}
+      </p>
+      <p *ngIf="errorMessage.length>0"
+          class="error-message">
+          {{ errorMessage }}
+      </p>
+      <br>
+      <app-dataframe-display
+            *ngIf="displayFrame"
+            [dataFrame]="dataFrame">
+      </app-dataframe-display>
   </div>
-  <div *ngIf="fileUpload">
-    <app-file-upload-form (fileDetails)="newFileUploaded($event)"></app-file-upload-form>
-  </div>
-  <br>
-  <p *ngIf="fileUploadMessage.length>0"
-      class="success-message">
-      {{ fileUploadMessage }}
-  </p>
-  <p *ngIf="errorMessage.length>0"
-      class="error-message">
-      {{ errorMessage }}
-  </p>
-  <br>
-  <app-dataframe-display
-        *ngIf="displayFrame"
-        [dataFrame]="dataFrame">
-  </app-dataframe-display>
+
 </div>

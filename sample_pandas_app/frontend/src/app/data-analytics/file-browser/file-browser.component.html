@@ -6,13 +6,13 @@
     <div class="row">
       <div class="form-horizontal">
         <div class="form-group">
-          <div class="col-md-2 text-align-right">
+          <div class="col-md-2 col-sm-2 col-xs-12 text-align-right">
             <label class="control-label"
                     for="user-file">
                     Your files:
             </label>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 col-sm-5 col-xs-12">
             <select class="form-control"
                     name="userfile"
                     id="user-file"
@@ -22,14 +22,15 @@
               </option>
             </select>
           </div>
-          <div class="col-md-2">
+
+          <div class="col-md-2 col-sm-2 col-xs-6 space-above">
             <button type="button"
                     class="btn btn-primary"
                     (click)="loadUserFile()">
                     Load
             </button>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-2 col-sm-2 col-xs-6 space-above">
             <button type="button"
                     class="btn btn-danger"
                     (click)="deleteUserFile()">
@@ -71,13 +72,13 @@
   <div class="row">
     <div class="form-horizontal">
       <div class="form-group">
-        <div class="col-md-2 text-align-right">
+        <div class="col-md-2 col-sm-2 col-xs-12 text-align-right">
           <label class="control-label"
                   for="public-file">
                   Public files:
           </label>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 col-sm-5 col-xs-12">
           <select class="form-control"
                   name="publicfile"
                   id="public-file"
@@ -87,7 +88,8 @@
             </option>
           </select>
         </div>
-        <div class="col-md-2">
+
+        <div class="col-md-2 col-sm-2 col-xs-6 space-above">
           <button type="button"
                   class="btn btn-primary"
                   (click)="loadPublicFile()">

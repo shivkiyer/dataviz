@@ -2,7 +2,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-file-browser',
-  templateUrl: './file-browser.component.html'
+  templateUrl: './file-browser.component.html',
+  styleUrls: ['./file-browser.component.css']
 })
 export class FileBrowserComponent {
   @Input() userFileList: any;

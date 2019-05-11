@@ -67,15 +67,7 @@ def extract_file_of_user(request, user_info):
 def check_user_login(request):
     user_info = extract_user_info(request)
     useraccount_valid = update_user_activity(user_info)
-    if not useraccount_valid:
-        return Response({
-            'message': "Your session expired. Please login again."
-        }, status=status.HTTP_401_UNAUTHORIZED)
-    if not user_info:
-        return Response({
-            'message': "You must login to upload a file."
-        }, status=status.HTTP_401_UNAUTHORIZED)
-    return user_info
+    return [user_info, useraccount_valid]
 
 
 class NewUser(APIView):
@@ -144,8 +136,15 @@ def user_logout(request):
 
 @api_view(['POST'])
 def file_upload(request):
-    user_info = check_user_login(request)
-
+    user_info, useraccount_valid = check_user_login(request)
+    if not useraccount_valid:
+        return Response({
+            'message': "Your session expired. Please login again."
+        }, status=status.HTTP_401_UNAUTHORIZED)
+    if not user_info:
+        return Response({
+            'message': "You must login to upload a file."
+        }, status=status.HTTP_401_UNAUTHORIZED)
     file_received = request.FILES.get('fileKey')
     if file_received.size>2097152:
         return Response(
@@ -178,7 +177,15 @@ def file_upload(request):
 
 @api_view(['POST'])
 def file_update(request):
-    user_info = check_user_login(request)
+    user_info, useraccount_valid = check_user_login(request)
+    if not useraccount_valid:
+        return Response({
+            'message': "Your session expired. Please login again."
+        }, status=status.HTTP_401_UNAUTHORIZED)
+    if not user_info:
+        return Response({
+            'message': "You must login to upload a file."
+        }, status=status.HTTP_401_UNAUTHORIZED)
     data_file, file_info = extract_file_of_user(request, user_info)
     if not data_file:
         return Response({
@@ -194,7 +201,15 @@ def file_update(request):
 
 @api_view(['POST'])
 def cancel_file_upload(request):
-    user_info = check_user_login(request)
+    user_info, useraccount_valid = check_user_login(request)
+    if not useraccount_valid:
+        return Response({
+            'message': "Your session expired. Please login again."
+        }, status=status.HTTP_401_UNAUTHORIZED)
+    if not user_info:
+        return Response({
+            'message': "You must login to upload a file."
+        }, status=status.HTTP_401_UNAUTHORIZED)
     data_file, file_info = extract_file_of_user(request, user_info)
     if not data_file:
         return Response({

@@ -25,13 +25,13 @@
 
         <div class="form-group">
           <div class="row">
-            <div class="col-md-4 text-align-right">
+            <div class="col-md-4 col-sm-4 col-xs-12 text-align-right">
               <label for="filedesc"
                       class="control-label">
                   File description
               </label>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8 col-sm-8 col-xs-12">
               <textarea rows="2" cols="40"
                       class="form-control"
                       id="filedesc"
@@ -41,13 +41,13 @@
           </div>
 
           <div class="row">
-            <div class="col-md-4 text-align-right">
+            <div class="col-md-4 col-sm-4 col-xs-3 text-align-right">
               <label for="makepublic"
                       class="control-label">
                   Make Public?
               </label>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2 col-sm-6 col-xs-9">
               <input type="checkbox"
                     class="form-control"
                     formControlName="make_public">
@@ -57,13 +57,13 @@
 
         <br>
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-4 col-sm-4 col-xs-6">
             <button type="submit"
                     class="btn btn-primary">
                     Submit
             </button>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 col-sm-4 col-xs-6">
             <button type="button"
                     class="btn btn-danger"
                     (click)="uploadCancel()">

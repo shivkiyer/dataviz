@@ -83,24 +83,18 @@
   background-color: white;
 }
 
-/*.header-navigation-list {
-  display: inline;
-}
-
-.header-navigation-link {
-  text-decoration: none;
-  color: inherit;
-  padding-right: 40px;
-  padding-left: 40px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  cursor: pointer;
-}
-
-.header-navigation-link:hover {
-  background-color: white;
-}*/
-
 .glyphicon {
   font-size: 120%;
+}
+
+
+.head-band {
+  margin-top: 0px;
+  margin-bottom: 30px;
+  padding: 0px;
+  background-color: rgb(240, 240, 240);
+}
+
+.head-band h1 {
+  text-align: center;
 }

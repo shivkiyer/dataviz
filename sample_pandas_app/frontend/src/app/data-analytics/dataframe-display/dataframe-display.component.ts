@@ -24,8 +24,11 @@ export class DataFrameDisplayComponent implements OnInit {
   }
 
   nextRows() {
-    this.startIndex += this.rowLimit;
-    this.endIndex += this.rowLimit;
+    this.startIndex = this.endIndex;
+    if (this.startIndex >= this.dataFrame['data'].length) {
+      this.startIndex = this.dataFrame['data'].length;
+    }
+    this.endIndex = this.startIndex + this.rowLimit;
     if (this.endIndex >= this.dataFrame['data'].length) {
       this.endIndex = this.dataFrame['data'].length;
     }
@@ -33,8 +36,11 @@ export class DataFrameDisplayComponent implements OnInit {
   }
 
   previousRows() {
-    this.startIndex -= this.rowLimit;
-    this.endIndex -= this.rowLimit;
+    this.endIndex = this.startIndex;
+    if (this.endIndex <= 0) {
+      this.endIndex = 0;
+    }
+    this.startIndex = this.endIndex - this.rowLimit;
     if (this.startIndex <= 0) {
       this.startIndex = 0;
     }
