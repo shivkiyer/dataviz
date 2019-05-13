@@ -17,6 +17,7 @@ class DataFilesSerializer(serializers.ModelSerializer):
     class Meta:
         model = DataFiles
         fields = (
+            'id',
             'username',
             'file_name',
             'file_description',

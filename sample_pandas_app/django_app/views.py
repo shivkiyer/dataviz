@@ -31,6 +31,8 @@ def extract_user_info(request):
         request.META.get('HTTP_AUTHORIZATION'),
         settings.JWT_SECRET
     )
+    # print("checking author")
+    # print(request.META.get('HTTP_AUTHORIZATION'))
     return user_info
 
 
@@ -46,7 +48,7 @@ def update_user_activity(user_object):
     if user_object:
         user_token = UserToken.objects.get(id=int(user_object['id']))
         time_difference = timezone.now() - user_token.updation_time
-        if (time_difference.total_seconds() > 60):
+        if (time_difference.total_seconds() > 300):
             delete_user_tokens(user_object['username'])
             return 0
         user_token.updation_time = timezone.now()
@@ -134,69 +136,69 @@ def user_logout(request):
     })
 
 
-@api_view(['POST'])
-def file_upload(request):
-    user_info, useraccount_valid = check_user_login(request)
-    if not useraccount_valid:
-        return Response({
-            'message': "Your session expired. Please login again."
-        }, status=status.HTTP_401_UNAUTHORIZED)
-    if not user_info:
-        return Response({
-            'message': "You must login to upload a file."
-        }, status=status.HTTP_401_UNAUTHORIZED)
-    file_received = request.FILES.get('fileKey')
-    if file_received.size>2097152:
-        return Response(
-            {
-                'message': 'File too large. Limit is 2MB'
-            }, status=status.HTTP_400_BAD_REQUEST
-        )
-    if (DataFiles.objects.filter(username=user_info['username']).filter(file_name=file_received.name)):
-        return Response(
-            {
-            'message': 'File exists. Delete the old file before uploading an updated one.'
-            }, status=status.HTTP_400_BAD_REQUEST
-        )
-    # file_name = file_received.name.split(".")[0]
-    # file_key = user_info['username'] + file_name
-    file_write = open(os.path.join(os.path.join(settings.MEDIA_ROOT, user_info['username']), file_received.name), "w")
-    file_contents = file_received.read()
-    file_contents = file_contents.decode('utf-8')
-    file_write.write(file_contents)
-    file_write.close()
-    new_data_file = DataFiles()
-    new_data_file.username = user_info['username']
-    new_data_file.file_name = file_received.name
-    new_data_file.save()
-    return Response({
-        'file_name': file_received.name,
-        'file_list': DataFilesSerializer(DataFiles.objects.filter(username=user_info['username']), many=True).data
-    })
+# @api_view(['POST'])
+# def file_upload(request):
+#     user_info, useraccount_valid = check_user_login(request)
+#     if not useraccount_valid:
+#         return Response({
+#             'message': "Your session expired. Please login again."
+#         }, status=status.HTTP_401_UNAUTHORIZED)
+#     if not user_info:
+#         return Response({
+#             'message': "You must login to upload a file."
+#         }, status=status.HTTP_401_UNAUTHORIZED)
+#     file_received = request.FILES.get('fileKey')
+#     if file_received.size>2097152:
+#         return Response(
+#             {
+#                 'message': 'File too large. Limit is 2MB'
+#             }, status=status.HTTP_400_BAD_REQUEST
+#         )
+#     if (DataFiles.objects.filter(username=user_info['username']).filter(file_name=file_received.name)):
+#         return Response(
+#             {
+#             'message': 'File exists. Delete the old file before uploading an updated one.'
+#             }, status=status.HTTP_400_BAD_REQUEST
+#         )
+#     # file_name = file_received.name.split(".")[0]
+#     # file_key = user_info['username'] + file_name
+#     file_write = open(os.path.join(os.path.join(settings.MEDIA_ROOT, user_info['username']), file_received.name), "w")
+#     file_contents = file_received.read()
+#     file_contents = file_contents.decode('utf-8')
+#     file_write.write(file_contents)
+#     file_write.close()
+#     new_data_file = DataFiles()
+#     new_data_file.username = user_info['username']
+#     new_data_file.file_name = file_received.name
+#     new_data_file.save()
+#     return Response({
+#         'file_name': file_received.name,
+#         'file_list': DataFilesSerializer(DataFiles.objects.filter(username=user_info['username']), many=True).data
+#     })
 
 
-@api_view(['POST'])
-def file_update(request):
-    user_info, useraccount_valid = check_user_login(request)
-    if not useraccount_valid:
-        return Response({
-            'message': "Your session expired. Please login again."
-        }, status=status.HTTP_401_UNAUTHORIZED)
-    if not user_info:
-        return Response({
-            'message': "You must login to upload a file."
-        }, status=status.HTTP_401_UNAUTHORIZED)
-    data_file, file_info = extract_file_of_user(request, user_info)
-    if not data_file:
-        return Response({
-            'message': 'Something went wrong.'
-        }, status=status.HTTP_400_BAD_REQUEST)
-    data_file[0].file_description = file_info['file_description']
-    data_file[0].make_public = file_info['make_public']
-    data_file[0].save()
-    return Response({
-        'message': 'Updated'
-    })
+# @api_view(['POST'])
+# def file_update(request):
+#     user_info, useraccount_valid = check_user_login(request)
+#     if not useraccount_valid:
+#         return Response({
+#             'message': "Your session expired. Please login again."
+#         }, status=status.HTTP_401_UNAUTHORIZED)
+#     if not user_info:
+#         return Response({
+#             'message': "You must login to upload a file."
+#         }, status=status.HTTP_401_UNAUTHORIZED)
+#     data_file, file_info = extract_file_of_user(request, user_info)
+#     if not data_file:
+#         return Response({
+#             'message': 'Something went wrong.'
+#         }, status=status.HTTP_400_BAD_REQUEST)
+#     data_file[0].file_description = file_info['file_description']
+#     data_file[0].make_public = file_info['make_public']
+#     data_file[0].save()
+#     return Response({
+#         'message': 'Updated'
+#     })
 
 
 @api_view(['POST'])
@@ -223,19 +225,119 @@ def cancel_file_upload(request):
     })
 
 
-@api_view(['GET'])
-def fetch_file_list(request):
-    user_info = extract_user_info(request)
-    if user_info:
-        user_file_list = DataFiles.objects.filter(username=user_info['username'])
-        public_file_list = DataFiles.objects.exclude(username=user_info['username']).filter(make_public=True)
-    else:
-        user_file_list = []
-        public_file_list = DataFiles.objects.filter(make_public=True)
-    return Response({
-        'user_file_list': DataFilesSerializer(user_file_list, many=True).data,
-        'public_file_list': DataFilesSerializer(public_file_list, many=True).data
-    })
+# @api_view(['GET'])
+# def fetch_file_list(request):
+#     user_info = extract_user_info(request)
+#     if user_info:
+#         user_file_list = DataFiles.objects.filter(username=user_info['username'])
+#         public_file_list = DataFiles.objects.exclude(username=user_info['username']).filter(make_public=True)
+#     else:
+#         user_file_list = []
+#         public_file_list = DataFiles.objects.filter(make_public=True)
+#     return Response({
+#         'user_file_list': DataFilesSerializer(user_file_list, many=True).data,
+#         'public_file_list': DataFilesSerializer(public_file_list, many=True).data
+#     })
+
+
+class FileOperation(APIView):
+    def get(self, request, *args, **kwargs):
+        user_info = extract_user_info(request)
+        if user_info:
+            user_file_list = DataFiles.objects.filter(username=user_info['username'])
+            public_file_list = DataFiles.objects.exclude(username=user_info['username']).filter(make_public=True)
+        else:
+            user_file_list = []
+            public_file_list = DataFiles.objects.filter(make_public=True)
+        return Response({
+            'user_file_list': DataFilesSerializer(user_file_list, many=True).data,
+            'public_file_list': DataFilesSerializer(public_file_list, many=True).data
+        })
+
+    def post(self, request, *args, **kwargs):
+        user_info, useraccount_valid = check_user_login(request)
+        if not useraccount_valid:
+            return Response({
+                'message': "Your session expired. Please login again."
+            }, status=status.HTTP_401_UNAUTHORIZED)
+        if not user_info:
+            return Response({
+                'message': "You must login to upload a file."
+            }, status=status.HTTP_401_UNAUTHORIZED)
+        file_received = request.FILES.get('fileKey')
+        if file_received.size>2097152:
+            return Response(
+                {
+                    'message': 'File too large. Limit is 2MB'
+                }, status=status.HTTP_400_BAD_REQUEST
+            )
+        if (DataFiles.objects.filter(username=user_info['username']).filter(file_name=file_received.name)):
+            return Response(
+                {
+                'message': 'File exists. Delete the old file before uploading an updated one.'
+                }, status=status.HTTP_400_BAD_REQUEST
+            )
+        file_write = open(os.path.join(os.path.join(settings.MEDIA_ROOT, user_info['username']), file_received.name), "w")
+        file_contents = file_received.read()
+        file_contents = file_contents.decode('utf-8')
+        file_write.write(file_contents)
+        file_write.close()
+        new_data_file = DataFiles()
+        new_data_file.username = user_info['username']
+        new_data_file.file_name = file_received.name
+        new_data_file.save()
+        return Response({
+            'file_name': file_received.name,
+            'file_list': DataFilesSerializer(DataFiles.objects.filter(username=user_info['username']), many=True).data
+        })
+
+    def patch(self, request, *args, **kwargs):
+        user_info, useraccount_valid = check_user_login(request)
+        if not useraccount_valid:
+            return Response({
+                'message': "Your session expired. Please login again."
+            }, status=status.HTTP_401_UNAUTHORIZED)
+        if not user_info:
+            return Response({
+                'message': "You must login to upload a file."
+            }, status=status.HTTP_401_UNAUTHORIZED)
+        data_file, file_info = extract_file_of_user(request, user_info)
+        if not data_file:
+            return Response({
+                'message': 'Something went wrong.'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        data_file[0].file_description = file_info['file_description']
+        data_file[0].make_public = file_info['make_public']
+        data_file[0].save()
+        return Response({
+            'message': 'Updated'
+        })
+
+    def delete(self, request, *args, **kwargs):
+        user_info, useraccount_valid = check_user_login(request)
+        if not useraccount_valid:
+            return Response({
+                'message': "Your session expired. Please login again."
+            }, status=status.HTTP_401_UNAUTHORIZED)
+        if not user_info:
+            return Response({
+                'message': "You must login to upload a file."
+            }, status=status.HTTP_401_UNAUTHORIZED)
+        if 'id' in kwargs:
+            file_id = int(kwargs['id'])
+            data_file = DataFiles.objects.get(id=file_id)
+        else:
+            return Response({
+                'message': 'Something went wrong.'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        os.remove(os.path.join(os.path.join(settings.MEDIA_ROOT, user_info['username']), data_file.file_name))
+        data_file.delete()
+
+        return Response({
+            'message': 'Upload canceled'
+        })
+
 
 
 @api_view(['POST'])

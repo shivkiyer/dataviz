@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from './../../environments/environment';
-import { UserAuthService } from './../services/user-auth.service';
+import { UserAuthService } from './user-auth.service';
+import { FileManagementService } from './file-management.service';
 
 @Injectable()
 export class FileUploadService {
   constructor(
     private httpClient: HttpClient,
-    private userAuthService: UserAuthService
+    private userAuthService: UserAuthService,
+    private fileManagementService: FileManagementService
   ) {}
 
   apiURL: string = environment.configSettings.apiURL;
@@ -29,6 +32,14 @@ export class FileUploadService {
             headers,
             observe: 'response'
           }
+        ).pipe(
+          map(
+            data => {
+              this.fileManagementService.userFileList.push(fileToUpload.name);
+              this.fileManagementService.userFileObjectList = [...data.body['file_list']];
+              return data;
+            }
+          )
         );
   }
 
@@ -37,7 +48,7 @@ export class FileUploadService {
       'Content-Type': 'application/json',
       'Authorization': this.userAuthService.getJWTToken()
     });
-    return this.httpClient.post(this.apiURL + 'file-update/', fileToUpdate, {headers});
+    return this.httpClient.patch(this.apiURL + 'file-update/', fileToUpdate, {headers});
   }
 
   cancelUpload(fileName: string): Observable<any> {
@@ -45,8 +56,9 @@ export class FileUploadService {
       'Content-Type': 'application/json',
       'Authorization': this.userAuthService.getJWTToken()
     });
-    return this.httpClient.post(this.apiURL + 'cancel-upload/',
-            {file_name: fileName},
+    const filePos = this.fileManagementService.userFileList.indexOf(fileName) - 1;
+    const fileId = this.fileManagementService.userFileObjectList[filePos]['id'];
+    return this.httpClient.delete(`${this.apiURL}cancel-upload/${fileId}/`,
             {headers}
           );
   }
