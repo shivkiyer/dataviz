@@ -48,7 +48,16 @@ export class FileUploadService {
       'Content-Type': 'application/json',
       'Authorization': this.userAuthService.getJWTToken()
     });
-    return this.httpClient.patch(this.apiURL + 'file-update/', fileToUpdate, {headers});
+    return this.httpClient.patch(
+            this.apiURL + 'file-update/',
+            fileToUpdate,
+            {headers}).pipe(
+              map(
+                data => {
+                  return data;
+                }
+              )
+            );
   }
 
   cancelUpload(fileName: string): Observable<any> {
@@ -58,7 +67,7 @@ export class FileUploadService {
     });
     const filePos = this.fileManagementService.userFileList.indexOf(fileName) - 1;
     const fileId = this.fileManagementService.userFileObjectList[filePos]['id'];
-    return this.httpClient.delete(`${this.apiURL}cancel-upload/${fileId}/`,
+    return this.httpClient.delete(`${this.apiURL}delete-file/${fileId}/`,
             {headers}
           );
   }

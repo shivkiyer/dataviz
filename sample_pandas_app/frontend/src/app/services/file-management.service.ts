@@ -46,21 +46,30 @@ export class FileManagementService {
 
 
   loadPublicFile(fileName: string): Observable<any> {
-    let [file_name, user_name] = fileName.split('*by*');
-    file_name = file_name.trim();
-    if (user_name) {
-      user_name = user_name.trim();
-    }
+    // let [file_name] = fileName.split('*by*');
+    // file_name = file_name.trim();
+    // if (user_name) {
+    //   user_name = user_name.trim();
+    // }
     const headers = new HttpHeaders({
       // 'Content': 'text/plain',
       'Authorization': this.userAuthService.getJWTToken()
     });
-    const postObject = {
-      file_name: file_name,
-      user_name: user_name
-    };
-    return this.http.post(this.apiURL + 'load-file/',
-                  JSON.stringify(postObject),
+    // const postObject = {
+    //   file_name: file_name,
+    //   user_name: user_name
+    // };
+    let fileIndex;
+    let fileId;
+    fileIndex = this.publicFileList.indexOf(fileName);
+    if (fileIndex < 0) {
+      fileIndex = this.userFileList.indexOf(fileName);
+      fileId = this.userFileObjectList[fileIndex-1]['id'];
+    } else {
+      fileId = this.publicFileObjectList[fileIndex-1]['id'];
+    }
+    return this.http.get(`${this.apiURL}load-file/${fileId}`,
+                  // JSON.stringify(postObject),
                   {headers}
               );
   }
@@ -76,15 +85,15 @@ export class FileManagementService {
       // 'Content': 'text/plain',
       'Authorization': this.userAuthService.getJWTToken()
     });
-    return this.http.post(this.apiURL + 'delete-file/',
-                  JSON.stringify({file_name: fileName}),
+    const deleteIndex = this.userFileList.indexOf(fileName);
+    const deleteId = this.userFileObjectList[deleteIndex-1]['id']
+    return this.http.delete(`${this.apiURL}delete-file/${deleteId}/`,
                   {headers}
               ).pipe(
                 map(
                   data => {
-                    const deleteIndex = this.userFileList.indexOf(fileName);
                     this.userFileList.splice(deleteIndex, 1);
-                    this.userFileObjectList.splice(deleteIndex, 1);
+                    this.userFileObjectList.splice(deleteIndex-1, 1);
                   }
                 )
               );

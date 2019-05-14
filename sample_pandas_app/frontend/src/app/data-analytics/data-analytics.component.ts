@@ -45,7 +45,6 @@ export class DataAnalyticsComponent implements OnInit {
     if (fileDetails.length > 0) {
       this.errorMessage = '';
       this.userFileList.push(fileDetails);
-      this.fileManagementService.userFileList.push(fileDetails);
       this.fileUploadMessage = `${fileDetails} has been upload successfully. It will appear in the drop down list of files.`
     } else {
       this.fileUploadMessage = '';

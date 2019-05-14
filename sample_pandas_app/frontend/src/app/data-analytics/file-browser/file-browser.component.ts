@@ -38,6 +38,7 @@ export class FileBrowserComponent {
     if (this.userFileSelection != 'Select') {
       this.deleteFile.emit(this.userFileSelection);
       this.confirmDeleteMessage = false;
+      this.userFileSelection = 'Select'
     }
   }
 
