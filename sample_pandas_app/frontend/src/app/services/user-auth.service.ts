@@ -6,6 +6,7 @@ import { JWTToken } from './../models/jwt-token.model';
 @Injectable()
 export class UserAuthService {
 
+  // A subject to emit whenever a user's token has expired.
   accountStatus = new Subject();
 
   getJWTToken(): string {

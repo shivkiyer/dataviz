@@ -27,6 +27,10 @@ export class DataAnalyticsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    /**
+    Checks if a user is logged in when user comes to this page.
+    Accordingly shows files that user can load.
+    */
     this.userLoggedIn = this.userAuthService.getJWTToken().length>0 ? true : false;
     this.fileManagementService.fetch_files().subscribe(
       data => {
@@ -41,7 +45,11 @@ export class DataAnalyticsComponent implements OnInit {
   }
 
   newFileUploaded(fileDetails: string) {
+    /**
+    Shows either a success or error message after a file is uploaded.
+    */
     this.fileUpload = false;
+    // fileDetails is emitted by file-upload-form when a file is uploaded.
     if (fileDetails.length > 0) {
       this.errorMessage = '';
       this.userFileList.push(fileDetails);
@@ -51,6 +59,7 @@ export class DataAnalyticsComponent implements OnInit {
       this.errorMessage = 'Upload canceled.';
     }
 
+    // The message is displayed only for 5s.
     setTimeout(() => {
       this.fileUploadMessage = '';
       this.errorMessage = '';
@@ -58,6 +67,9 @@ export class DataAnalyticsComponent implements OnInit {
   }
 
   loadUserFile(fileName: string) {
+    /**
+    Loads a file chosen by user from drop down list in file-browser.
+    */
     this.fileManagementService.loadUserFile(fileName).subscribe(
       data => {
         this.dataFrame = JSON.parse(data['dataframe']);
@@ -71,10 +83,16 @@ export class DataAnalyticsComponent implements OnInit {
   }
 
   loadPublicFile(fileName: string) {
+    /**
+    The method is the same whether user file or public file.
+    */
     this.loadUserFile(fileName);
   }
 
   userDeleteFile(fileName: string) {
+    /**
+    Deletes a file the user chooses from drop-down box file-browser.
+    */
     this.fileManagementService.deleteUserFile(fileName).subscribe(
       data => {
         this.userFileList = [...this.fileManagementService.userFileList];

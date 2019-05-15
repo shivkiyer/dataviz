@@ -21,6 +21,9 @@ export class FileManagementService {
   ) {}
 
   fetch_files(): Observable<any> {
+    /**
+    Get all files from backend that a user can access.
+    */
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.userAuthService.getJWTToken()
@@ -29,15 +32,19 @@ export class FileManagementService {
     return this.http.get(this.apiURL + 'fetch-files/', {headers}).pipe(
       map(
         data => {
+          // The backend sends back the user's files and public files.
           this.userFileList = ['Select'];
           this.publicFileList = ['Select'];
           this.userFileObjectList = data['user_file_list'];
           this.publicFileObjectList = data['public_file_list'];
+          // userfilelist and publicfilelist are for the drop downs.
           data['user_file_list'].forEach((item, index) => {
             this.userFileList.push(item['file_name']);
           });
           data['public_file_list'].forEach((item, index) => {
-            this.publicFileList.push(`${item['file_name']} *by* ${this.publicFileObjectList[index]['username']}`);
+            this.publicFileList.push(
+              `${item['file_name']} *by* ${this.publicFileObjectList[index]['username']}`
+            );
           });
         }
       )
@@ -46,19 +53,13 @@ export class FileManagementService {
 
 
   loadPublicFile(fileName: string): Observable<any> {
-    // let [file_name] = fileName.split('*by*');
-    // file_name = file_name.trim();
-    // if (user_name) {
-    //   user_name = user_name.trim();
-    // }
+    /**
+    Retrieve the contents of a public file.
+    */
     const headers = new HttpHeaders({
       // 'Content': 'text/plain',
       'Authorization': this.userAuthService.getJWTToken()
     });
-    // const postObject = {
-    //   file_name: file_name,
-    //   user_name: user_name
-    // };
     let fileIndex;
     let fileId;
     fileIndex = this.publicFileList.indexOf(fileName);
@@ -69,18 +70,23 @@ export class FileManagementService {
       fileId = this.publicFileObjectList[fileIndex-1]['id'];
     }
     return this.http.get(`${this.apiURL}load-file/${fileId}`,
-                  // JSON.stringify(postObject),
                   {headers}
               );
   }
 
 
   loadUserFile(fileName: string): Observable<any> {
+    /**
+    Retrieve the contents of a user's file.
+    */
     return this.loadPublicFile(fileName);
   }
 
 
   deleteUserFile(fileName: string): Observable<any> {
+    /**
+    Delete a user's file from backend.
+    */
     const headers = new HttpHeaders({
       // 'Content': 'text/plain',
       'Authorization': this.userAuthService.getJWTToken()
@@ -92,6 +98,7 @@ export class FileManagementService {
               ).pipe(
                 map(
                   data => {
+                    // Remove it from local lists.
                     this.userFileList.splice(deleteIndex, 1);
                     this.userFileObjectList.splice(deleteIndex-1, 1);
                   }

@@ -3,7 +3,6 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { UserService } from './../services/user.service';
-import { UserAuthService } from './../services/user-auth.service';
 
 @Component({
   selector: 'app-user-login',
@@ -14,8 +13,7 @@ export class LoginBoxComponent {
 
   constructor(
     private userService: UserService,
-    private router: Router,
-    private userAuthService: UserAuthService
+    private router: Router
   ) {}
 
   userLoginForm = new FormGroup({
@@ -27,9 +25,14 @@ export class LoginBoxComponent {
   errorMessage: string = '';
 
   loginUser() {
+    /**
+    Once user logs in, redirect to data home page
+    Save the JWT token.
+    */
     this.userService.loginUser(this.userLoginForm).subscribe(
       response => {
-        this.userAuthService.setJWTToken(response);
+        // Display a login successful message for 1.5 seconds
+        // Before redirecting.
         this.statusMessage = 'Login successful! Just a moment ...';
         this.errorMessage = '';
         setTimeout(() => {

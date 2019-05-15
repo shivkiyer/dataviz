@@ -5,7 +5,8 @@ import { UserService } from './../services/user.service';
 
 @Component({
   selector: 'app-user-register',
-  templateUrl: './register-box.component.html'
+  templateUrl: './register-box.component.html',
+  styleUrls: ['./register-box.component.css']
 })
 export class RegisterBoxComponent {
 

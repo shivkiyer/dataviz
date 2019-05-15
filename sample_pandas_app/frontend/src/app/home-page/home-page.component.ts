@@ -16,6 +16,9 @@ export class HomePageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    /**
+    If a user has logged in, don't show login page.
+    */
     if (this.userAuthService.getJWTToken().length>0) {
       this.router.navigate(['/data-analytics']);
     }
