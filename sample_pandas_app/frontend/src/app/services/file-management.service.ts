@@ -106,4 +106,16 @@ export class FileManagementService {
               );
   }
 
+
+  showFileDetails(fileName: string): any {
+    let fileIndex: number;
+    fileIndex = this.publicFileList.indexOf(fileName);
+    if (fileIndex < 0) {
+      fileIndex = this.userFileList.indexOf(fileName);
+      return this.userFileObjectList[fileIndex-1];
+    } else {
+      return this.publicFileObjectList[fileIndex-1];
+    }
+  }
+
 }

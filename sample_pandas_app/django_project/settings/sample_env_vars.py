@@ -9,8 +9,7 @@ PROJECT_SECRET_KEY = some_key
 JWT_SECRET = some_key
 
 # Frontend server port and IP/URL
-FRONTEND_PORT = 'port'
-FRONTEND_HOST = 'localhost'
+FRONTEND_HOST = 'localhost:port'
 
 # List of IP addresses for ALLOWED_HOSTS
 IP_ADDRESS_LIST = [some_list]

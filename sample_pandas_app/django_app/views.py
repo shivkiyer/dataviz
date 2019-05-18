@@ -270,7 +270,12 @@ class FileOperation(UserAuth):
         data_file[0].make_public = file_info['make_public']
         data_file[0].save()
         return Response({
-            'message': 'Updated'
+            'message': 'Updated',
+            'file_list': DataFilesSerializer(
+                            DataFiles.objects.filter(
+                                    username=self.user_info['username']
+                                    ),
+                            many=True).data
         })
 
     def delete(self, request, *args, **kwargs):

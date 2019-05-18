@@ -60,7 +60,14 @@ export class FileUploadService {
     return this.httpClient.patch(
             this.apiURL + 'file-update/',
             fileToUpdate,
-            {headers});
+            {headers}).pipe(
+              map(
+                data => {
+                  this.fileManagementService.userFileObjectList = [...data['file_list']];
+                  return data;
+                }
+              )
+            );
   }
 
   cancelUpload(fileName: string): Observable<any> {

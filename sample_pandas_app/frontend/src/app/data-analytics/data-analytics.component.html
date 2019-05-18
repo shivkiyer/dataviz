@@ -3,13 +3,15 @@
 <div class="container">
 
   <div class="data-home-container">
-      <app-file-browser [userFileList]="userFileList"
-                        [publicFileList]="publicFileList"
+      <app-user-file-browser [userFileList]="userFileList"
                         [userLoggedIn]="userLoggedIn"
                         (userFile)="loadUserFile($event)"
-                        (publicFile)="loadPublicFile($event)"
                         (deleteFile)="userDeleteFile($event)">
-      </app-file-browser>
+      </app-user-file-browser>
+
+      <app-public-file-browser [publicFileList]="publicFileList"
+                        (publicFile)="loadPublicFile($event)">
+      </app-public-file-browser>
 
       <br>
 

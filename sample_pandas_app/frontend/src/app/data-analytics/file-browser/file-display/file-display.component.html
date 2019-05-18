@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-md-5 col-sm-6 col-xs-12">
+    <p *ngIf="!fileDetails['file_description']">
+      No description provided.
+    </p>
+    <p>
+      {{ fileDetails['file_description'] }}
+    </p>
+    <p>
+      This file is <ng-container *ngIf="!fileDetails['make_public']">not </ng-container>public.
+    </p>
+  </div>
+
+</div>

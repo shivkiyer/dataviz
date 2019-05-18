@@ -1,21 +1,20 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-file-browser',
-  templateUrl: './file-browser.component.html',
-  styleUrls: ['./file-browser.component.css']
+  selector: 'app-user-file-browser',
+  templateUrl: './user-file-browser.component.html',
+  styleUrls: ['./../file-browser.component.css']
 })
-export class FileBrowserComponent {
+export class UserFileBrowserComponent {
   @Input() userFileList: any;
-  @Input() publicFileList: any;
   @Input() userLoggedIn: boolean;
-  // By default, both user and public files are at Select placeholder.
+  // By default, user files are at Select placeholder.
   userFileSelection: string = 'Select';
-  publicFileSelection: string = 'Select';
   @Output() userFile = new EventEmitter<string>();
-  @Output() publicFile = new EventEmitter<string>();
   @Output() deleteFile = new EventEmitter<string>();
   confirmDeleteMessage: boolean = false;
+  showFileName: string;
+  showFileDetails: boolean = false;
 
   loadUserFile() {
     /**
@@ -23,15 +22,6 @@ export class FileBrowserComponent {
     */
     if (this.userFileSelection != 'Select') {
       this.userFile.emit(this.userFileSelection);
-    }
-  }
-
-  loadPublicFile() {
-    /**
-    When a public file is selected from drop down.
-    */
-    if (this.publicFileSelection != 'Select') {
-      this.publicFile.emit(this.publicFileSelection);
     }
   }
 
@@ -51,12 +41,20 @@ export class FileBrowserComponent {
     if (this.userFileSelection != 'Select') {
       this.deleteFile.emit(this.userFileSelection);
       this.confirmDeleteMessage = false;
-      this.userFileSelection = 'Select'
+      this.userFileSelection = 'Select';
+      this.showFileDetails = false;
     }
   }
 
   displayFileDetails(file: any) {
-    console.log(file.target.value);
+    this.showFileDetails = false;
+    const fileName = file.target.value;
+    if (fileName != 'Select') {
+      setTimeout(() => {
+        this.showFileDetails = true;
+        this.showFileName = fileName;
+      }, 100);
+    }
   }
 
 }
