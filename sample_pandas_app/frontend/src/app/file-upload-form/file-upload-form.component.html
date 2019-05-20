@@ -1,5 +1,6 @@
 <div class="file-upload-form">
-  <div class="form-group">
+  <div *ngIf="newFile"
+        class="form-group">
       <label for="file"
             class="control-label">
             Choose File
@@ -19,6 +20,7 @@
   <div *ngIf="showForm">
     <p>These are the details of <strong>{{ newFileUploaded }}</strong>. Change if you need to.</p>
     <br>
+
     <form class="form-horizontal"
           [formGroup]="fileUploadForm"
           (ngSubmit)="fileUpdate()">
@@ -71,7 +73,7 @@
             </button>
           </div>
         </div>
-
     </form>
+
   </div>
 </div>

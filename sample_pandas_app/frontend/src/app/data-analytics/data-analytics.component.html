@@ -3,15 +3,18 @@
 <div class="container">
 
   <div class="data-home-container">
-      <app-user-file-browser [userFileList]="userFileList"
+      <app-file-browser [fileList]="userFileList"
                         [userLoggedIn]="userLoggedIn"
-                        (userFile)="loadUserFile($event)"
-                        (deleteFile)="userDeleteFile($event)">
-      </app-user-file-browser>
+                        (fileSelected)="loadUserFile($event)"
+                        (deleteFile)="userDeleteFile($event)"
+                        [userFileBrowser]="true">
+      </app-file-browser>
 
-      <app-public-file-browser [publicFileList]="publicFileList"
-                        (publicFile)="loadPublicFile($event)">
-      </app-public-file-browser>
+      <app-file-browser [fileList]="publicFileList"
+                        [userLoggedIn]="userLoggedIn"
+                        (fileSelected)="loadPublicFile($event)"
+                        [userFileBrowser]="false">
+      </app-file-browser>
 
       <br>
 
@@ -23,7 +26,10 @@
         </button>
       </div>
       <div *ngIf="fileUpload">
-        <app-file-upload-form (fileDetails)="newFileUploaded($event)"></app-file-upload-form>
+        <app-file-upload-form
+              (fileDetails)="newFileUploaded($event)"
+              [newFile]="true">
+        </app-file-upload-form>
       </div>
       <br>
       <p *ngIf="fileUploadMessage.length>0"

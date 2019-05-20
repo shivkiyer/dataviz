@@ -1,47 +1,63 @@
-<div *ngIf="userLoggedIn">
-  <p *ngIf="userFileList.length<2">
+<div *ngIf="userLoggedIn&&userFileBrowser">
+  <p *ngIf="fileList.length<2">
     You don't have any files yet. Upload some to get started.
   </p>
-  <div *ngIf="userFileList.length>1">
-    <div class="row">
-      <div class="form-horizontal">
-        <div class="form-group">
-          <div class="col-md-2 col-sm-2 col-xs-12 text-align-right">
-            <label class="control-label"
-                    for="user-file">
-                    Your files:
-            </label>
-          </div>
-          <div class="col-md-4 col-sm-5 col-xs-12">
-            <select class="form-control"
-                    name="userfile"
-                    id="user-file"
-                    [(ngModel)]="userFileSelection">
-              <option [value]="fileItem" *ngFor="let fileItem of userFileList">
-                {{ fileItem }}
-              </option>
-            </select>
-          </div>
+</div>
 
-          <div class="col-md-2 col-sm-2 col-xs-6 space-above">
-            <button type="button"
-                    class="btn btn-primary"
-                    (click)="loadUserFile()">
-                    Load
-            </button>
-          </div>
-          <div class="col-md-2 col-sm-2 col-xs-6 space-above">
-            <button type="button"
-                    class="btn btn-danger"
-                    (click)="deleteUserFile()">
-                    Delete
-            </button>
-          </div>
+<div *ngIf="!userLoggedIn&&!userFileBrowser">
+  <p *ngIf="fileList.length>=2">
+    You are not logged in. You can access publicly available files.
+  </p>
+  <p *ngIf="fileList.length<2">
+    There are no public files at this point of time.
+  </p>
+</div>
+
+<div *ngIf="fileList.length>1">
+  <div class="row">
+    <div class="form-horizontal">
+      <div class="form-group">
+        <div class="col-md-2 col-sm-2 col-xs-12 text-align-right">
+          <label class="control-label"
+                  for="file-list">
+                  <span *ngIf="userFileBrowser">
+                    Your files:
+                  </span>
+                  <span *ngIf="!userFileBrowser">
+                    Public files:
+                  </span>
+          </label>
+        </div>
+        <div class="col-md-4 col-sm-5 col-xs-12">
+          <select class="form-control"
+                  name="filename"
+                  id="file-list"
+                  [(ngModel)]="fileSelection"
+                  (change)="displayFileDetails($event)">
+            <option [value]="fileItem" *ngFor="let fileItem of fileList">
+              {{ fileItem }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-md-2 col-sm-2 col-xs-6 space-above">
+          <button type="button"
+                  class="btn btn-primary"
+                  (click)="loadFile()">
+                  Load
+          </button>
+        </div>
+        <div *ngIf="userLoggedIn"
+              class="col-md-2 col-sm-2 col-xs-6 space-above">
+          <button type="button"
+                  class="btn btn-danger"
+                  (click)="deleteFileMessage()">
+                  Delete
+          </button>
         </div>
       </div>
     </div>
   </div>
-  <br>
 </div>
 
 <div *ngIf="confirmDeleteMessage">
@@ -60,44 +76,9 @@
   <br> <br>
 </div>
 
-<p *ngIf="!userLoggedIn">
-  You are not logged in. You can access publicly available files.
-</p>
 
-<p *ngIf="publicFileList.length<1">
-  There are no public files at this point of time.
-</p>
-
-<div *ngIf="publicFileList.length>1">
-  <div class="row">
-    <div class="form-horizontal">
-      <div class="form-group">
-        <div class="col-md-2 col-sm-2 col-xs-12 text-align-right">
-          <label class="control-label"
-                  for="public-file">
-                  Public files:
-          </label>
-        </div>
-        <div class="col-md-4 col-sm-5 col-xs-12">
-          <select class="form-control"
-                  name="publicfile"
-                  id="public-file"
-                  [(ngModel)]="publicFileSelection"
-                  (change)="displayFileDetails($event)">
-            <option [value]="fileItem" *ngFor="let fileItem of publicFileList">
-              {{ fileItem }}
-            </option>
-          </select>
-        </div>
-
-        <div class="col-md-2 col-sm-2 col-xs-6 space-above">
-          <button type="button"
-                  class="btn btn-primary"
-                  (click)="loadPublicFile()">
-                  Load
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<app-file-display
+          *ngIf="showFileDetails"
+          [fileName]="showFileName"
+          (hideCommand)="showFileDetails=false">
+</app-file-display>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { FileManagementService } from './../../../services/file-management.service';
 
@@ -14,8 +14,24 @@ export class FileDisplayComponent implements OnInit {
 
   @Input() fileName: string;
   fileDetails: any;
+  @Output() hideCommand = new EventEmitter<boolean>();
+  showEditForm: boolean = false;
 
   ngOnInit() {
     this.fileDetails = this.fileManagementService.showFileDetails(this.fileName);
   }
+
+  hideDisplay() {
+    this.hideCommand.emit(true);
+  }
+
+  editFileDetails() {
+    this.showEditForm = true;
+  }
+
+  redisplayFile() {
+    this.fileDetails = this.fileManagementService.showFileDetails(this.fileName);
+    this.showEditForm = false;
+  }
+
 }

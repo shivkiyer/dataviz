@@ -6,40 +6,31 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./file-browser.component.css']
 })
 export class FileBrowserComponent {
-  @Input() userFileList: any;
-  @Input() publicFileList: any;
+  @Input() userFileBrowser: boolean;
+  @Input() fileList: any;
   @Input() userLoggedIn: boolean;
-  // By default, both user and public files are at Select placeholder.
-  userFileSelection: string = 'Select';
-  publicFileSelection: string = 'Select';
-  @Output() userFile = new EventEmitter<string>();
-  @Output() publicFile = new EventEmitter<string>();
+  // By default, files are at Select placeholder.
+  fileSelection: string = 'Select';
+  @Output() fileSelected = new EventEmitter<string>();
   @Output() deleteFile = new EventEmitter<string>();
   confirmDeleteMessage: boolean = false;
+  showFileName: string;
+  showFileDetails: boolean = false;
 
-  loadUserFile() {
+  loadFile() {
     /**
     When user clicks load button, emits the filename selected.
     */
-    if (this.userFileSelection != 'Select') {
-      this.userFile.emit(this.userFileSelection);
+    if (this.fileSelection != 'Select') {
+      this.fileSelected.emit(this.fileSelection);
     }
   }
 
-  loadPublicFile() {
-    /**
-    When a public file is selected from drop down.
-    */
-    if (this.publicFileSelection != 'Select') {
-      this.publicFile.emit(this.publicFileSelection);
-    }
-  }
-
-  deleteUserFile() {
+  deleteFileMessage() {
     /**
     When a user wants to delete a file, display a confirmation.
     */
-    if (this.userFileSelection != 'Select') {
+    if (this.fileSelection != 'Select') {
       this.confirmDeleteMessage = true;
     }
   }
@@ -48,15 +39,22 @@ export class FileBrowserComponent {
     /**
     If user says yes to the delete, send this file for deletion.
     */
-    if (this.userFileSelection != 'Select') {
-      this.deleteFile.emit(this.userFileSelection);
+    if (this.fileSelection != 'Select') {
+      this.deleteFile.emit(this.fileSelection);
       this.confirmDeleteMessage = false;
-      this.userFileSelection = 'Select'
+      this.fileSelection = 'Select'
     }
   }
 
   displayFileDetails(file: any) {
-    console.log(file.target.value);
+    this.showFileDetails = false;
+    const fileName = file.target.value;
+    if (fileName != 'Select') {
+      setTimeout(() => {
+        this.showFileDetails = true;
+        this.showFileName = fileName;
+      }, 100);
+    }
   }
 
 }

@@ -1,14 +1,41 @@
-<div class="row">
-  <div class="col-md-5 col-sm-6 col-xs-12">
-    <p *ngIf="!fileDetails['file_description']">
-      No description provided.
-    </p>
-    <p>
-      {{ fileDetails['file_description'] }}
-    </p>
-    <p>
-      This file is <ng-container *ngIf="!fileDetails['make_public']">not </ng-container>public.
-    </p>
+<div *ngIf="!showEditForm">
+  <div class="row">
+    <div class="col-md-5 col-md-offset-1 col-sm-6 col-xs-12">
+      <strong>File description: </strong>
+      <ng-container *ngIf="!fileDetails['file_description']">
+        No description provided.
+      </ng-container>
+      <ng-container>
+        {{ fileDetails['file_description'] }}
+      </ng-container>
+      <p></p>
+      <strong>File is publicly viewable?: </strong>
+      <span *ngIf="fileDetails['make_public']">Yes</span>
+      <span *ngIf="!fileDetails['make_public']">No</span>
+    </div>
   </div>
-
+  <br>
+  <div class="row">
+    <div class="col-md-2 col-md-offset-1 col-sm-3 col-sm-offset-1 col-xs-6">
+      <button type="button"
+              class="btn btn-primary"
+              (click)="editFileDetails()">
+              Edit
+      </button>
+    </div>
+    <div class="col-md-2 col-md-offset-1 col-sm-3 col-sm-offset-1 col-xs-6">
+      <button type="button"
+              class="btn btn-general"
+              (click)="hideDisplay()">
+              Hide
+      </button>
+    </div>
+  </div>
 </div>
+
+<app-file-upload-form
+      *ngIf="showEditForm"
+      [newFile]="false"
+      [editedFilename]="fileName"
+      (fileDetails)="redisplayFile()">
+</app-file-upload-form>

@@ -13,8 +13,7 @@ import { AboutPageComponent } from './about-page/about-page.component';
 import { LoginBoxComponent } from './login-box/login-box.component';
 import { RegisterBoxComponent } from './register-box/register-box.component';
 import { DataAnalyticsComponent } from './data-analytics/data-analytics.component';
-import { UserFileBrowserComponent } from './data-analytics/file-browser/user-file-browser/user-file-browser.component';
-import { PublicFileBrowserComponent } from './data-analytics/file-browser/public-file-browser/public-file-browser.component';
+import { FileBrowserComponent } from './data-analytics/file-browser/file-browser.component';
 import { DataFrameDisplayComponent } from './data-analytics/dataframe-display/dataframe-display.component';
 import { FileDisplayComponent } from './data-analytics/file-browser/file-display/file-display.component';
 
@@ -33,8 +32,7 @@ import { FileManagementService } from './services/file-management.service';
     LoginBoxComponent,
     RegisterBoxComponent,
     DataAnalyticsComponent,
-    UserFileBrowserComponent,
-    PublicFileBrowserComponent,
+    FileBrowserComponent,
     DataFrameDisplayComponent,
     FileDisplayComponent
   ],

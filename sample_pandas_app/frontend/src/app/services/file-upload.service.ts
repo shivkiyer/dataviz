@@ -64,6 +64,12 @@ export class FileUploadService {
               map(
                 data => {
                   this.fileManagementService.userFileObjectList = [...data['file_list']];
+                  this.fileManagementService.userFileList = this.fileManagementService.userFileObjectList.map(
+                    (item) => {
+                      return item['file_name'];
+                    }
+                  );
+                  this.fileManagementService.userFileList.splice(0, 0, 'Select');
                   return data;
                 }
               )
