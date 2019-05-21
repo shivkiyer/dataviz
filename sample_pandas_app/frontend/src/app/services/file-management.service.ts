@@ -108,6 +108,11 @@ export class FileManagementService {
 
 
   showFileDetails(fileName: string): any {
+    /**
+    Extract details of a file based on the file name
+    First check for the file in the public file list
+    and then in the user file list.
+    */
     let fileIndex: number;
     fileIndex = this.publicFileList.indexOf(fileName);
     if (fileIndex < 0) {

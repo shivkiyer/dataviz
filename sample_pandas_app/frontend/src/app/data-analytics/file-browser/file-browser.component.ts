@@ -42,11 +42,18 @@ export class FileBrowserComponent {
     if (this.fileSelection != 'Select') {
       this.deleteFile.emit(this.fileSelection);
       this.confirmDeleteMessage = false;
+      this.showFileDetails = false;
       this.fileSelection = 'Select'
     }
   }
 
   displayFileDetails(file: any) {
+    /**
+    This method is called when there is a change in the user
+    selection from the drop down list. To ensure that the file
+    display captures changes, it is removed from the DOM and
+    re-rendered by turning the show flag off and then on.
+    */
     this.showFileDetails = false;
     const fileName = file.target.value;
     if (fileName != 'Select') {

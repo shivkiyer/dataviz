@@ -11,9 +11,9 @@
         <li *ngIf="!userLoggedIn">
           <a routerLink="/">LOGIN</a>
         </li>
-        <li *ngIf="!userLoggedIn">
+        <!-- <li *ngIf="!userLoggedIn">
           <a routerLink="/">REGISTER</a>
-        </li>
+        </li> -->
         <li *ngIf="userLoggedIn">
           <a (click)="userLogout()">LOGOUT</a>
         </li>
@@ -29,7 +29,7 @@
                   <a routerLink="/">Home</a>
                   <a routerLink="/about">ABOUT</a>
                   <a *ngIf="!userLoggedIn" routerLink="/">LOGIN</a>
-                  <a *ngIf="!userLoggedIn" routerLink="/">REGISTER</a>
+                  <!-- <a *ngIf="!userLoggedIn" routerLink="/">REGISTER</a> -->
                   <a *ngIf="userLoggedIn" (click)="userLogout()">LOGOUT</a>
               </div>
           </div>

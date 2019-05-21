@@ -193,11 +193,19 @@ class FileOperation(UserAuth):
         self.extract_user_info(request)
         # For a guest user_info will be None.
         if self.user_info:
-            user_file_list = DataFiles.objects.filter(username=self.user_info['username'])
-            public_file_list = DataFiles.objects.exclude(username=self.user_info['username']).filter(make_public=True)
+            user_file_list = DataFiles.objects.filter(
+                    username=self.user_info['username']
+                ).order_by('file_name')
+            public_file_list = DataFiles.objects.exclude(
+                    username=self.user_info['username']
+                ).filter(
+                    make_public=True
+                ).order_by('file_name')
         else:
             user_file_list = []
-            public_file_list = DataFiles.objects.filter(make_public=True)
+            public_file_list = DataFiles.objects.filter(
+                    make_public=True
+                ).order_by('file_name')
         return Response({
             'user_file_list': DataFilesSerializer(user_file_list, many=True).data,
             'public_file_list': DataFilesSerializer(public_file_list, many=True).data
@@ -247,7 +255,7 @@ class FileOperation(UserAuth):
             'file_list': DataFilesSerializer(
                             DataFiles.objects.filter(
                                     username=self.user_info['username']
-                                    ),
+                                    ).order_by('file_name'),
                             many=True).data
         })
 
@@ -274,7 +282,7 @@ class FileOperation(UserAuth):
             'file_list': DataFilesSerializer(
                             DataFiles.objects.filter(
                                     username=self.user_info['username']
-                                    ),
+                                    ).order_by('file_name'),
                             many=True).data
         })
 

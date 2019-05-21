@@ -79,6 +79,7 @@
 
 <app-file-display
           *ngIf="showFileDetails"
+          [userFileBrowser]="userFileBrowser"
           [fileName]="showFileName"
           (hideCommand)="showFileDetails=false">
 </app-file-display>

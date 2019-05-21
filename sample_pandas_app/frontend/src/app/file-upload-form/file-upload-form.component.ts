@@ -17,6 +17,8 @@ export class FileUploadFormComponent implements OnInit {
     private fileManagementService: FileManagementService
   ) {}
 
+  // To indicate whether this form is for a new
+  // file (empty) or for an old one (exisiting contents)
   @Input() newFile: boolean;
   @Input() editedFilename: string = '';
   fileToUpload: File = null;
@@ -31,6 +33,12 @@ export class FileUploadFormComponent implements OnInit {
   });
 
   ngOnInit() {
+    /**
+    When component is rendered, check if it is to
+    be a new file or an old file. A old file means,
+    extract details from fileManagementService and
+    pre-populate the form.
+    */
     if (!this.newFile) {
       let fileIndex = this.fileManagementService.userFileList.indexOf(this.editedFilename);
       let fileObj = this.fileManagementService.userFileObjectList[fileIndex-1];
@@ -102,6 +110,7 @@ export class FileUploadFormComponent implements OnInit {
     /**
     Cancel the upload.
     */
+    // If an old file, just hide the form.
     if (!this.newFile) {
       this.showForm = false;
       return;
