@@ -69,7 +69,7 @@ export class FileManagementService {
     } else {
       fileId = this.publicFileObjectList[fileIndex-1]['id'];
     }
-    return this.http.get(`${this.apiURL}load-file/${fileId}`,
+    return this.http.get(`${this.apiURL}load-file/${fileId}/`,
                   {headers}
               );
   }
