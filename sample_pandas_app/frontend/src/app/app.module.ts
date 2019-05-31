@@ -16,6 +16,7 @@ import { DataAnalyticsComponent } from './data-analytics/data-analytics.componen
 import { FileBrowserComponent } from './data-analytics/file-browser/file-browser.component';
 import { DataFrameDisplayComponent } from './data-analytics/dataframe-display/dataframe-display.component';
 import { FileDisplayComponent } from './data-analytics/file-browser/file-display/file-display.component';
+import { AnalyticsToolbarComponent } from './data-analytics/analytics-toolbar/analytics-toolbar.component';
 
 import { FileUploadService } from './services/file-upload.service';
 import { UserService } from './services/user.service';
@@ -34,7 +35,8 @@ import { FileManagementService } from './services/file-management.service';
     DataAnalyticsComponent,
     FileBrowserComponent,
     DataFrameDisplayComponent,
-    FileDisplayComponent
+    FileDisplayComponent,
+    AnalyticsToolbarComponent
   ],
   imports: [
     BrowserModule,

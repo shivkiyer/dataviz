@@ -20,6 +20,7 @@ export class DataAnalyticsComponent implements OnInit {
   publicFileSelection: string = 'Select';
   displayFrame: boolean = false;
   dataFrame: any = {};
+  showToolbar: boolean = false;
 
   constructor(
     private userAuthService: UserAuthService,
@@ -71,9 +72,10 @@ export class DataAnalyticsComponent implements OnInit {
     Loads a file chosen by user from drop down list in file-browser.
     */
     this.fileManagementService.loadUserFile(fileName).subscribe(
-      data => {
-        this.dataFrame = JSON.parse(data['dataframe']);
-        this.displayFrame = true;
+      (data) => {
+        this.dataFrame = data;
+        // this.displayFrame = true;
+        this.showToolbar = true;
         this.errorMessage = '';
       },
       errors => {

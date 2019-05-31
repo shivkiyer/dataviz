@@ -1,0 +1,26 @@
+.toolbar {
+  width: 100%;
+  padding: 0px;
+  background-color: rgb(35, 35, 35);
+  color: white;
+}
+
+.toolbar-button {
+  background-color: rgb(35, 35, 35);
+  color: inherit;
+  padding: 10px 0px;
+  margin: 0px;
+  text-align: center;
+  width: 100%;
+}
+
+.toolbar-button:hover {
+  background-color: rgb(65, 65, 65);
+}
+
+.nopadding {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}

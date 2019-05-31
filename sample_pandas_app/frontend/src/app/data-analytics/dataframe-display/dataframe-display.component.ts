@@ -18,6 +18,9 @@ export class DataFrameDisplayComponent implements OnInit {
     */
     this.rowIndices = [];
     for (let count=this.startIndex; count<this.endIndex; count++) {
+      if (count>this.dataFrame['data'].length-1) {
+        break;
+      }
       this.rowIndices.push(count);
     }
   }

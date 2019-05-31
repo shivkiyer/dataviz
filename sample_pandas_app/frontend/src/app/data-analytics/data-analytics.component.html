@@ -41,6 +41,11 @@
           {{ errorMessage }}
       </p>
       <br>
+
+      <app-analytics-toolbar
+          *ngIf="showToolbar">
+      </app-analytics-toolbar>
+
       <app-dataframe-display
             *ngIf="displayFrame"
             [dataFrame]="dataFrame">

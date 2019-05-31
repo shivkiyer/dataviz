@@ -14,6 +14,8 @@ export class FileManagementService {
   userFileList = ['Select'];
   publicFileObjectList = [];
   publicFileList = ['Select'];
+  loadedFileList: {[fileId: number]: string}[] = [];
+  loadedFileHeaders = [];
 
   constructor(
     private http: HttpClient,
@@ -33,19 +35,17 @@ export class FileManagementService {
       map(
         data => {
           // The backend sends back the user's files and public files.
-          this.userFileList = ['Select'];
-          this.publicFileList = ['Select'];
           this.userFileObjectList = data['user_file_list'];
           this.publicFileObjectList = data['public_file_list'];
           // userfilelist and publicfilelist are for the drop downs.
-          data['user_file_list'].forEach((item, index) => {
-            this.userFileList.push(item['file_name']);
-          });
-          data['public_file_list'].forEach((item, index) => {
-            this.publicFileList.push(
+          this.userFileList = data['user_file_list'].map(
+              item => item['file_name']
+          );
+          this.userFileList.splice(0, 0, 'Select');
+          this.publicFileList = data['public_file_list'].map((item, index) =>
               `${item['file_name']} *by* ${this.publicFileObjectList[index]['username']}`
-            );
-          });
+          );
+          this.publicFileList.splice(0, 0, 'Select');
         }
       )
     );
@@ -69,8 +69,16 @@ export class FileManagementService {
     } else {
       fileId = this.publicFileObjectList[fileIndex-1]['id'];
     }
+    this.loadedFileList.push({[fileId]: fileName});
     return this.http.get(`${this.apiURL}load-file/${fileId}/`,
                   {headers}
+              ).pipe(
+                map(
+                  data => {
+                    this.loadedFileHeaders.push(JSON.parse(data['dataframe']));
+                    return this.loadedFileHeaders[this.loadedFileHeaders.length-1];
+                  }
+                )
               );
   }
 

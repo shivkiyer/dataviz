@@ -338,7 +338,7 @@ class LoadFile(UserAuth):
             data_files[extract_file[0].file_name] = pd.read_csv(os.path.join(
                 settings.MEDIA_ROOT,
                 os.path.join(file_user_name, extract_file[0].file_name)
-            ))
+            )).head(5)
         data_frame = data_files[extract_file[0].file_name].to_json(orient='split')
         return Response({
             'message': 'Loaded',
