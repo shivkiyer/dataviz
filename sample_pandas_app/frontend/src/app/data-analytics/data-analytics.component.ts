@@ -73,7 +73,7 @@ export class DataAnalyticsComponent implements OnInit {
     */
     this.fileManagementService.loadUserFile(fileName).subscribe(
       (data) => {
-        this.dataFrame = data;
+        // this.dataFrame = data;
         // this.displayFrame = true;
         this.showToolbar = true;
         this.errorMessage = '';
@@ -96,7 +96,7 @@ export class DataAnalyticsComponent implements OnInit {
     Deletes a file the user chooses from drop-down box file-browser.
     */
     this.fileManagementService.deleteUserFile(fileName).subscribe(
-      data => {
+      () => {
         this.userFileList = [...this.fileManagementService.userFileList];
         this.errorMessage = '';
       },
@@ -104,6 +104,11 @@ export class DataAnalyticsComponent implements OnInit {
         this.errorMessage = errors.error.message;
       }
     );
+  }
+
+  showDataFrame(data: any) {
+    this.dataFrame = JSON.parse(data['dataframe']);
+    this.displayFrame = true;
   }
 
 }

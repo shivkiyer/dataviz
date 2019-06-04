@@ -131,4 +131,16 @@ export class FileManagementService {
     }
   }
 
+
+
+  fetchDataFrame(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': this.userAuthService.getJWTToken()
+    });
+    const fileId: number = Object.keys(this.loadedFileList[this.loadedFileList.length-1])[0];
+    return this.http.get(`${this.apiURL}load-file/${fileId}/`,
+            {headers}
+        );
+  }
+
 }

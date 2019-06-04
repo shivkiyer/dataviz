@@ -43,7 +43,9 @@
       <br>
 
       <app-analytics-toolbar
-          *ngIf="showToolbar">
+          *ngIf="showToolbar"
+          (dataframe)="showDataFrame($event)"
+          (displayFrame)="displayFrame=true">
       </app-analytics-toolbar>
 
       <app-dataframe-display
