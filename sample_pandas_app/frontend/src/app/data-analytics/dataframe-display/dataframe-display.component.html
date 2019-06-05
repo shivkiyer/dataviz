@@ -1,38 +1,40 @@
-<div class="row">
-  <div class="col-md-4 col-sm-4 col-xs-6">
-    <button type="button"
-            class="btn btn-general"
-            (click)="previousRows()"
-            [disabled]="startIndex==0">
-            &lt;Previous
-    </button>
-  </div>
-  <div class="col-md-4 col-sm-4 col-sm-offset-4 col-xs-6">
-    <button type="button"
-            class="btn btn-general"
-            (click)="nextRows()"
-            [disabled]="endIndex==dataFrame['data'].length">
-            Next&gt;
-    </button>
-  </div>
-</div>
-<div class="table-responsive">
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Index</th>
-        <th *ngFor="let thead of dataFrame['columns']">
-          {{ thead }}
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let dRows of rowIndices">
-        <td>{{ dataFrame['index'][dRows] }}</td>
-        <td *ngFor="let dcols of dataFrame['data'][dRows]">
-          {{ dcols }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="dataframe">
+    <div class="row">
+      <div class="col-md-4 col-sm-4 col-xs-6">
+        <button type="button"
+                class="btn btn-general"
+                (click)="previousRows()"
+                [disabled]="startIndex==0">
+                &lt;Previous
+        </button>
+      </div>
+      <div class="col-md-4 col-sm-4 col-sm-offset-4 col-xs-6">
+        <button type="button"
+                class="btn btn-general"
+                (click)="nextRows()"
+                [disabled]="endIndex==dataFrame['data'].length">
+                Next&gt;
+        </button>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Index</th>
+            <th *ngFor="let thead of dataFrame['columns']">
+              {{ thead }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let dRows of rowIndices">
+            <td>{{ dataFrame['index'][dRows] }}</td>
+            <td *ngFor="let dcols of dataFrame['data'][dRows]">
+              {{ dcols }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 </div>

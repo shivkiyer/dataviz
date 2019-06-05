@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Subject } from 'rxjs';
 
 import { environment } from './../../environments/environment';
 import { UserAuthService } from './../services/user-auth.service';
@@ -16,6 +17,7 @@ export class FileManagementService {
   publicFileList = ['Select'];
   loadedFileList: {[fileId: number]: string}[] = [];
   loadedFileHeaders = [];
+  dataFileListener = new Subject<any[]>();
 
   constructor(
     private http: HttpClient,
@@ -76,6 +78,7 @@ export class FileManagementService {
                 map(
                   data => {
                     this.loadedFileHeaders.push(JSON.parse(data['dataframe']));
+                    this.dataFileListener.next(this.loadedFileList);
                     return this.loadedFileHeaders[this.loadedFileHeaders.length-1];
                   }
                 )
@@ -137,9 +140,13 @@ export class FileManagementService {
     const headers = new HttpHeaders({
       'Authorization': this.userAuthService.getJWTToken()
     });
-    const fileId: number = Object.keys(this.loadedFileList[this.loadedFileList.length-1])[0];
+    const fileId: number = +Object.keys(this.loadedFileList[this.loadedFileList.length-1])[0];
     return this.http.get(`${this.apiURL}load-file/${fileId}/`,
             {headers}
+        ).pipe(
+          map(
+            data => JSON.parse(data['dataframe'])
+          )
         );
   }
 

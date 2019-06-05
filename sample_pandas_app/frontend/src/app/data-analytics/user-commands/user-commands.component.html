@@ -1,0 +1,10 @@
+<app-analytics-toolbar
+    *ngIf="showToolbar"
+    (dataframe)="showDataFrame($event)"
+    (displayFrame)="displayFrame=true">
+</app-analytics-toolbar>
+
+<app-dataframe-display
+      *ngIf="displayFrame"
+      [dataFrame]="dataFrame">
+</app-dataframe-display>

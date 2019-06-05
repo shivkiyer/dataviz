@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 
 import { FileManagementService } from './../../services/file-management.service';
 
@@ -7,13 +7,31 @@ import { FileManagementService } from './../../services/file-management.service'
   templateUrl: './analytics-toolbar.component.html',
   styleUrls: ['./analytics-toolbar.component.css']
 })
-export class AnalyticsToolbarComponent {
+export class AnalyticsToolbarComponent implements OnInit {
   @Output() dataframe = new EventEmitter<any>();
   @Output() displayFrame = new EventEmitter<boolean>();
+  fileList = [];
 
   constructor(
     private fileManagementService: FileManagementService
   ) {}
+
+  extractFileNames(fileObjects: any) {
+    return fileObjects.map(
+      item => item[Object.keys(item)[0]]
+    );
+  }
+
+  ngOnInit() {
+    this.fileList = this.extractFileNames(this.fileManagementService.loadedFileList);
+    this.fileManagementService.dataFileListener.subscribe(
+      data => {
+        if (data) {
+          this.fileList = this.extractFileNames(data);
+        }
+      }
+    );
+  }
 
   startQuery() {
     this.fileManagementService.fetchDataFrame().subscribe(

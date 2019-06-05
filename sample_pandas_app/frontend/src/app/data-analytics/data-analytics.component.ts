@@ -59,7 +59,9 @@ export class DataAnalyticsComponent implements OnInit {
       this.fileUploadMessage = '';
       this.errorMessage = 'Upload canceled.';
     }
-
+        // this.dataFrame = data;
+        // this.displayFrame = true;
+        // this.showToolbar = true;
     // The message is displayed only for 5s.
     setTimeout(() => {
       this.fileUploadMessage = '';
@@ -73,9 +75,6 @@ export class DataAnalyticsComponent implements OnInit {
     */
     this.fileManagementService.loadUserFile(fileName).subscribe(
       (data) => {
-        // this.dataFrame = data;
-        // this.displayFrame = true;
-        this.showToolbar = true;
         this.errorMessage = '';
       },
       errors => {
@@ -104,11 +103,6 @@ export class DataAnalyticsComponent implements OnInit {
         this.errorMessage = errors.error.message;
       }
     );
-  }
-
-  showDataFrame(data: any) {
-    this.dataFrame = JSON.parse(data['dataframe']);
-    this.displayFrame = true;
   }
 
 }

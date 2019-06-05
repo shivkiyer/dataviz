@@ -2,7 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-dataframe-display',
-  templateUrl: './dataframe-display.component.html'
+  templateUrl: './dataframe-display.component.html',
+  styleUrls: ['./dataframe-display.component.css']
 })
 export class DataFrameDisplayComponent implements OnInit {
 
