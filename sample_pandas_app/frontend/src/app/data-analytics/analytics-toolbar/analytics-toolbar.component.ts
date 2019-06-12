@@ -11,6 +11,7 @@ export class AnalyticsToolbarComponent implements OnInit {
   @Output() dataframe = new EventEmitter<any>();
   @Output() displayFrame = new EventEmitter<boolean>();
   fileList = [];
+  fileSelection: string = '';
 
   constructor(
     private fileManagementService: FileManagementService
@@ -34,7 +35,10 @@ export class AnalyticsToolbarComponent implements OnInit {
   }
 
   startQuery() {
-    this.fileManagementService.fetchDataFrame().subscribe(
+    if (this.fileSelection.length<=0) {
+      return;
+    }
+    this.fileManagementService.fetchDataFrame(this.fileSelection).subscribe(
       data => {
         this.dataframe.emit(data);
         this.displayFrame.emit(true);

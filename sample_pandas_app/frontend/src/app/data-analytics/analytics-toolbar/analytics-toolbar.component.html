@@ -14,10 +14,18 @@
       </button>
     </div>
     <div class="col-xs-6 nopadding">
-      <button type="button"
+      <!-- <button type="button"
               class="toolbar-button">
               FILEBROWSER
-      </button>
+      </button> -->
+      <select class="toolbar-dropdown"
+              name="filename"
+              id="file-list"
+              [(ngModel)]="fileSelection">
+        <option [value]="fileItem" *ngFor="let fileItem of fileList">
+          {{ fileItem }}
+        </option>
+      </select>
     </div>
   </div>
 </div>

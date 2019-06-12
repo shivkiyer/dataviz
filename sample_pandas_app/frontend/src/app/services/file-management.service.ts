@@ -24,6 +24,16 @@ export class FileManagementService {
     private userAuthService: UserAuthService
   ) {}
 
+
+  getChosenFileIndex(fileName: string): number {
+    let fileIndex;
+    fileIndex = this.publicFileList.indexOf(fileName);
+    if (fileIndex < 0) {
+      return [this.userFileList.indexOf(fileName), true];
+    }
+    return [fileIndex, false];
+  }
+
   fetch_files(): Observable<any> {
     /**
     Get all files from backend that a user can access.
@@ -62,15 +72,10 @@ export class FileManagementService {
       // 'Content': 'text/plain',
       'Authorization': this.userAuthService.getJWTToken()
     });
-    let fileIndex;
-    let fileId;
-    fileIndex = this.publicFileList.indexOf(fileName);
-    if (fileIndex < 0) {
-      fileIndex = this.userFileList.indexOf(fileName);
-      fileId = this.userFileObjectList[fileIndex-1]['id'];
-    } else {
-      fileId = this.publicFileObjectList[fileIndex-1]['id'];
-    }
+    let fileIndex, fileId: number;
+    let fileType: boolean;
+    [fileIndex, fileType] = this.getChosenFileIndex(fileName);
+    fileId = fileType ? this.userFileObjectList[fileIndex-1]['id'] : this.publicFileObjectList[fileIndex-1]['id'];
     this.loadedFileList.push({[fileId]: fileName});
     return this.http.get(`${this.apiURL}load-file/${fileId}/`,
                   {headers}
@@ -125,22 +130,25 @@ export class FileManagementService {
     and then in the user file list.
     */
     let fileIndex: number;
-    fileIndex = this.publicFileList.indexOf(fileName);
-    if (fileIndex < 0) {
-      fileIndex = this.userFileList.indexOf(fileName);
-      return this.userFileObjectList[fileIndex-1];
-    } else {
-      return this.publicFileObjectList[fileIndex-1];
-    }
+    let fileType: boolean;
+    [fileIndex, fileType] = this.getChosenFileIndex(fileName);
+    let fileObject;
+    fileObject = fileType ? this.userFileObjectList[fileIndex-1] : this.publicFileObjectList[fileIndex-1];
+    return fileObject;
   }
 
 
 
-  fetchDataFrame(): Observable<any> {
+  fetchDataFrame(fileName: string): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': this.userAuthService.getJWTToken()
     });
-    const fileId: number = +Object.keys(this.loadedFileList[this.loadedFileList.length-1])[0];
+    let fileIndex: number;
+    let loadedFileNames = this.loadedFileList.map(
+            item => Object.values(item)[0];
+        );
+    fileIndex = loadedFileNames.indexOf(fileName);
+    const fileId: number = +Object.keys(this.loadedFileList[fileIndex])[0];
     return this.http.get(`${this.apiURL}load-file/${fileId}/`,
             {headers}
         ).pipe(

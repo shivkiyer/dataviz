@@ -12,6 +12,17 @@
   margin: 0px;
   text-align: center;
   width: 100%;
+  border: 0px;
+}
+
+.toolbar-dropdown {
+  /*margin-left: 0px;
+  margin-right: 15px;*/
+  margin:5px;
+  padding: 5px;
+  width: 80%;
+  background-color: white;
+  color: black;
 }
 
 .toolbar-button:hover {
