@@ -25,7 +25,7 @@ export class FileManagementService {
   ) {}
 
 
-  getChosenFileIndex(fileName: string): number {
+  getChosenFileIndex(fileName: string): [number, boolean] {
     let fileIndex;
     fileIndex = this.publicFileList.indexOf(fileName);
     if (fileIndex < 0) {
@@ -145,7 +145,7 @@ export class FileManagementService {
     });
     let fileIndex: number;
     let loadedFileNames = this.loadedFileList.map(
-            item => Object.values(item)[0];
+            item => Object.values(item)[0]
         );
     fileIndex = loadedFileNames.indexOf(fileName);
     const fileId: number = +Object.keys(this.loadedFileList[fileIndex])[0];
