@@ -2,7 +2,7 @@ cryptography==1.7.1
 Django==2.1.7
 django-cors-headers==2.5.0
 django-rest-framework==0.1.0
-djangorestframework==3.9.2
+djangorestframework==3.11.2
 idna==2.2
 keyring==10.1
 keyrings.alt==1.3
